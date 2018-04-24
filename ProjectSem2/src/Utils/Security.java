@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bkap.itrd.qlts.utils;
+package Utils;
 
-import bkap.itrd.qlts.entity.NhanVien;
+import Entity.User;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,7 +17,7 @@ import java.security.SecureRandom;
  */
 public class Security {
 
-    public static NhanVien curentLogin = null;
+    public static User curentLogin = null;
 
     public static String encryptMD5(String input) {
         try {

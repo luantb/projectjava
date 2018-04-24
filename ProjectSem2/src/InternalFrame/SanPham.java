@@ -14,8 +14,17 @@ public class SanPham extends javax.swing.JInternalFrame {
     /**
      * Creates new form HangHoa
      */
+    private static SanPham sp;
+
     public SanPham() {
         initComponents();
+    }
+
+    public static SanPham getInstance() {
+        if (sp != null) {
+            sp = new SanPham();
+        }
+        return sp;
     }
 
     /**

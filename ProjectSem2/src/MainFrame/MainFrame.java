@@ -5,7 +5,10 @@
  */
 package MainFrame;
 
+import InternalFrame.DangNhap;
 import InternalFrame.SanPham;
+import java.awt.Dimension;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -16,8 +19,38 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private void showLogin() {
+        DangNhap loginFrame = DangNhap.getInstance();
+        if (!checkOnly(loginFrame)) {
+            MainDesktopPain.add(loginFrame);
+            centerJIF(loginFrame);
+        } else {
+            loginFrame.show();
+        }
+    }
+
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = MainDesktopPain.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void centerJIF(JInternalFrame jif) {
+        Dimension desktopSize = MainDesktopPain.getSize();
+        Dimension jInternalFrameSize = jif.getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        jif.setLocation(width, height);
+        jif.setVisible(true);
+    }
+
     public MainFrame() {
         initComponents();
+        showLogin();
     }
 
     /**
@@ -35,9 +68,11 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +103,9 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem2.setText("Danh Mục");
         jMenu2.add(jMenuItem2);
 
+        jMenuItem3.setText("Nhân Viên");
+        jMenu2.add(jMenuItem3);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Giao dịch");
@@ -78,6 +116,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenu5.setText("Báo cáo");
         jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("Đăng nhập");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenu6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu6ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -91,9 +142,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(MainDesktopPain)
-                .addGap(0, 0, 0))
+            .addComponent(MainDesktopPain)
         );
 
         pack();
@@ -102,9 +151,21 @@ public class MainFrame extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         SanPham sp = new SanPham();
-        MainDesktopPain.add(sp);
-        sp.setVisible(true);
+        if (!checkOnly(sp)) {
+            MainDesktopPain.add(sp);
+            centerJIF(sp);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu6ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenu6ActionPerformed
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        // TODO add your handling code here:
+        showLogin();
+    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -148,8 +209,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,9 +18,9 @@ public class InternalFrameFactory {
 
     public JInternalFrame getInternalFrame(int id) {
         switch (id) {
-            case Constant.QUAN_LY_TAI_SAN:
+            case Constants.QUAN_LY_TAI_SAN:
                 return new QuanLyTaiSan();
-            case Constant.QUAN_LY_NHAN_VIEN:
+            case Constants.QUAN_LY_NHAN_VIEN:
                 return new QuanLyNhanVien();
             default:
                 return DangNhap.getInstance();

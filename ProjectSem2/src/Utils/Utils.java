@@ -23,8 +23,8 @@ public class Utils {
      * @see DateFormat
      */
     public static String getTime(int type) {
-        Calendar calendar = Calendar.getInstance(Constant.locale);
-        DateFormat format = DateFormat.getDateTimeInstance(type, type, Constant.locale);
+        Calendar calendar = Calendar.getInstance(Constants.locale);
+        DateFormat format = DateFormat.getDateTimeInstance(type, type, Constants.locale);
         return "[" + format.format(calendar.getTime()) + "] ";
     }
 }
