@@ -5,19 +5,94 @@
  */
 package MainFrame;
 
+import Entity.User;
+import ImplementInterface.UserImpl;
+import Interface.UserInterface;
+import InternalFrame.DangNhap;
+import InternalFrame.LoginInfo;
+import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
+import Utils.Security;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 
 /**
  *
  * @author Hoang's PC
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
     /**
      * Creates new form MainFrame
+     *
+     * @param role Số phân quyền truy cập
      */
+    private static int uRole;
+
+//    private void showLogin() {
+//        DangNhap loginFrame = DangNhap.getInstance();
+//        if (!checkOnly(loginFrame)) {
+//            MainDesktopPain.add(loginFrame);
+//            centerJIF(loginFrame);
+//        } else {
+//            loginFrame.show();
+//        }
+//    }
+    private void loginTrue() {
+        jMenu1.setEnabled(true);
+        jMenu2.setEnabled(true);
+        jMenu3.setEnabled(true);
+        jMenu4.setEnabled(true);
+        jMenu5.setEnabled(true);
+    }
+
+    private void loginFalse() {
+        jMenu1.setEnabled(false);
+        jMenu2.setEnabled(false);
+        jMenu3.setEnabled(false);
+        jMenu4.setEnabled(false);
+        jMenu5.setEnabled(false);
+        jLabel1.setText("Bạn chưa đăng nhập!");
+    }
+
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = MainDesktopPain.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void centerJIF(JInternalFrame jif) {
+        Dimension desktopSize = MainDesktopPain.getSize();
+        Dimension jInternalFrameSize = jif.getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        jif.setLocation(width, height);
+        jif.setVisible(true);
+    }
+
+    private void showFrame(JInternalFrame jintr) {
+        if (!checkOnly(jintr)) {
+            MainDesktopPain.add(jintr);
+            centerJIF(jintr);
+        }
+    }
+
     public MainFrame() {
         initComponents();
+        DangNhap dn = new DangNhap(this, true);
+        dn.setupCallbackObject(this);
+        showFrame(dn);
+        loginFalse();
+//        showLogin();
     }
 
     /**
@@ -30,26 +105,48 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         MainDesktopPain = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ProjectJava");
+        setAlwaysOnTop(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        MainDesktopPain.setToolTipText("");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+
+        MainDesktopPain.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout MainDesktopPainLayout = new javax.swing.GroupLayout(MainDesktopPain);
         MainDesktopPain.setLayout(MainDesktopPainLayout);
         MainDesktopPainLayout.setHorizontalGroup(
             MainDesktopPainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 782, Short.MAX_VALUE)
+            .addGroup(MainDesktopPainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(476, Short.MAX_VALUE))
         );
         MainDesktopPainLayout.setVerticalGroup(
             MainDesktopPainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 592, Short.MAX_VALUE)
+            .addGroup(MainDesktopPainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(526, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Tổng quan");
@@ -68,16 +165,52 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem2.setText("Danh Mục");
         jMenu2.add(jMenuItem2);
 
+        jMenuItem3.setText("Nhân Viên");
+        jMenu2.add(jMenuItem3);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Giao dịch");
         jMenuBar1.add(jMenu3);
 
+        jMenu5.setText("Báo cáo");
+        jMenuBar1.add(jMenu5);
+
         jMenu4.setText("Đối tác");
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setText("Báo cáo");
-        jMenuBar1.add(jMenu5);
+        jMenu6.setText("Hệ thống");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenu6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu6ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem4.setText("Đăng nhập");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem4);
+
+        jMenuItem6.setText("Đăng ký");
+        jMenu6.add(jMenuItem6);
+
+        jMenuItem5.setText("Đăng xuất");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -91,9 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(MainDesktopPain)
-                .addGap(0, 0, 0))
+            .addComponent(MainDesktopPain)
         );
 
         pack();
@@ -101,10 +232,30 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        SanPham sp = new SanPham();
-        MainDesktopPain.add(sp);
-        sp.setVisible(true);
+        JInternalFrame sp = new SanPham();
+        showFrame(sp);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu6ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jMenu6ActionPerformed
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu6MouseClicked
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        DangNhap dn = new DangNhap(this, true);
+        dn.setupCallbackObject(this);
+        showFrame(dn);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        loginFalse();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,13 +294,51 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane MainDesktopPain;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setRole(User u) {
+        System.out.println(u.getUserRole());
+        uRole = u.getUserRole();
+        switch (uRole) {
+            case 1:
+                loginTrue();
+                jLabel1.setText("Xin chào: " + u.getName());
+                break;
+            case 2:
+                loginTrue();
+                jMenu2.setEnabled(false);
+                jLabel1.setText("Xin chào: " + u.getName());
+                break;
+            case 3:
+                loginTrue();
+                jMenu3.setEnabled(false);
+                jLabel1.setText("Xin chào: " + u.getName());
+                break;
+            case 4:
+                loginTrue();
+                jMenu4.setEnabled(false);
+                jLabel1.setText("Xin chào: " + u.getName());
+                break;
+            case 5:
+                loginTrue();
+                jMenu5.setEnabled(false);
+                jLabel1.setText("Xin chào: " + u.getName());
+                break;
+        }
+    }
 }
