@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bkap.itrd.qlts.utils;
+package Utils;
 
 import java.awt.Component;
 import javax.swing.JOptionPane;
@@ -23,6 +23,6 @@ public class DialogThongBao {
     }
 
     public static int showAlert(Component parent, String tieuDe, String noidung) {
-        return JOptionPane.showOptionDialog(parent, noidung, tieuDe, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[]{"Đồng ý", "Hủy"}, "QLTS");
+        return JOptionPane.showOptionDialog(parent, noidung, tieuDe, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[]{"Đồng ý", "Hủy"}, null);
     }
 }

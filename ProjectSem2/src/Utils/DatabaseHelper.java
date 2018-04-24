@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bkap.itrd.qlts.utils;
+package Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +21,11 @@ import java.util.logging.Logger;
 public class DatabaseHelper {
 
     private Connection connection;
+
+    public Connection getConnection() {
+        return connection;
+    }
+    
 
 //    public Connection getConnection() {
 //        return connection;
@@ -87,7 +92,8 @@ public class DatabaseHelper {
         PreparedStatement pstm = getPrepareStatement(false, sql, args);
         return pstm.executeQuery();
     }
-
+    
+    
     /**
      * Hàm cập nhật dữ liệu: INSERT | UPFATE | DELETE
      *
@@ -98,6 +104,7 @@ public class DatabaseHelper {
         PreparedStatement pstm = getPrepareStatement(false, sql, args);
         return pstm.executeUpdate();
     }
+    
 
     /**
      * Hàm cập nhật dữ liệu: INSERT

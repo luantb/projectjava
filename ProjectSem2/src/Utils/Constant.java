@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bkap.itrd.qlts.utils;
+package Utils;
 
 import java.util.Locale;
 
@@ -15,11 +15,11 @@ public class Constant {
 
     public static Locale locale = new Locale("vi", "VN");
 
-    public static String host = "localhost\\MINHVUFC-PC\\SQLEXPRESS2014"; // localhost\\MINHVUFC-PC\\SQLEXPRESS2014
+    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS"; // localhost\\MINHVUFC-PC\\SQLEXPRESS2014
     public static String port = "1433"; // 3306
-    public static String schema = "QLTS";
+    public static String schema = "QuanLyCuaHang";
     public static String username = "sa"; // root
-    public static String password = "123456"; // 
+    public static String password = "1234$"; // 
 
     // Thông điệp
     public static String THONG_BAO_DANG_NHAP = "Thông báo đăng nhập";
@@ -37,15 +37,29 @@ public class Constant {
     public static final int ACTION_DELETE = 3;
 
     // Thông điệp
+    public static final String MSG_UPDATE = "Cập nhật dữ liệu";
     public static final String MSG_ERROR_UPDATE = "Cập nhật dữ liệu không thành công";
     public static final String MSG_SUCCESS_UPDATE = "Cập nhật dữ liệu thành công";
     public static String MSG_THONG_BAO_DANG_NHAP = "Thông báo đăng nhập";
     public static String MSG_SAI_TEN_MAT_KHAU = "Sai tên hoặc mật khẩu, vui lòng thử lại!";
     public static String MSG_DANG_NHAP_THANH_CONG = "Đăng nhập thành công";
     public static String MSG_XAC_NHAN_XOA = "Bạn chắc chắn muốn xóa";
+    public static String MSG_ADD = "Thêm dữ liệu";
+    public static String MSG_ADD_USED = "Trùng tên đăng nhập";
+    public static String MSG_ADD_NULL = "Không được để trống trường";
+    public static String MSG_ADD_SUCCESS = "Thêm dữ liệu thành công";
+    public static String MSG_ADD_NOT_EQUAL = "Hai mật khẩu không trùng khớp";
 
     // Cú pháp SQL
-    public static String SQL_LOGIN = "SELECT * FROM tbl_nhanvien WHERE email = ? OR username = ? AND password = ?";
+    public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ?";
+    public static String SQL_GET_ALL_USER = "SELECT [user_id], name, username, "
+            + "password, user_role, [role].role_name FROM [user] INNER JOIN role ON [user].user_role = [role].role_id";
+    public static String SQL_GET_ROLE_TO_SET = "SELECT * FROM [role]";
+    public static String SQL_GET_USER_BY_ID = "SELECT * FROM [user] WHERE user_id = ?";
+    public static String SQL_INSERT_USER = "INSERT INTO [user] ([name] ,[username] ,[password] ,[user_role]) VALUES (?, ?, ?, ?)";
+    public static String SQL_DELETE_USER_BY_ID = "DELETE FROM [user] WHERE user_id = ?";
+    public static String SQL_GET_SORTED_USER = "SELECT [user_id], name, username, "
+            + "password, user_role, [role].role_name FROM [user] INNER JOIN role ON [user].user_role = [role].role_id ORDER BY ";
 
     // Nhóm quyền
     public static String SQL_SELECT_NHOM_QUYEN = "SELECT * FROM tbl_nhom_quyen";
