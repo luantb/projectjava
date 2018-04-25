@@ -53,10 +53,13 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng nh&#x1ead;p"/>
           </Properties>
+<<<<<<< HEAD
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu6MouseClicked"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenu6ActionPerformed"/>
           </Events>
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
         </Menu>
       </SubComponents>
     </Menu>

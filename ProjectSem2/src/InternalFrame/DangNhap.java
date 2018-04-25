@@ -5,6 +5,7 @@
  */
 package InternalFrame;
 
+<<<<<<< HEAD
 import Entity.User;
 import ImplementInterface.UserImpl;
 import Interface.UserInterface;
@@ -17,19 +18,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
 /**
  *
  * @author Hoang's PC
  */
 public class DangNhap extends javax.swing.JInternalFrame {
 
+<<<<<<< HEAD
     private static DangNhap loginFrame;
 
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
     /**
      * Creates new form DangNhap
      */
     public DangNhap() {
         initComponents();
+<<<<<<< HEAD
         this.getRootPane().setDefaultButton(jButton1);
     }
 
@@ -52,6 +59,8 @@ public class DangNhap extends javax.swing.JInternalFrame {
             Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
         }
         return getrole;
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
     }
 
     /**
@@ -66,12 +75,23 @@ public class DangNhap extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+<<<<<<< HEAD
         username = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
+=======
+        jTextField1 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
         setTitle("Đăng nhập");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -80,11 +100,15 @@ public class DangNhap extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Mật khẩu:");
 
+<<<<<<< HEAD
         password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordActionPerformed(evt);
             }
         });
+=======
+        jPasswordField1.setText("jPasswordField1");
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
 
         jButton1.setText("Hủy");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +118,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Đăng nhập");
+<<<<<<< HEAD
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -106,12 +131,15 @@ public class DangNhap extends javax.swing.JInternalFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+<<<<<<< HEAD
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,6 +157,24 @@ public class DangNhap extends javax.swing.JInternalFrame {
                     .addComponent(password, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                     .addComponent(username, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(10, 10, 10))
+=======
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap())
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,6 +182,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
+<<<<<<< HEAD
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -147,6 +194,18 @@ public class DangNhap extends javax.swing.JInternalFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addContainerGap())
+=======
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,6 +233,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+<<<<<<< HEAD
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         username.setText("");
@@ -198,15 +258,25 @@ public class DangNhap extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
 
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+<<<<<<< HEAD
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField username;
+=======
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JTextField jTextField1;
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
     // End of variables declaration//GEN-END:variables
 }

@@ -118,6 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Đăng nhập");
+<<<<<<< HEAD
         jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu6MouseClicked(evt);
@@ -128,6 +129,8 @@ public class MainFrame extends javax.swing.JFrame {
                 jMenu6ActionPerformed(evt);
             }
         });
+=======
+>>>>>>> 5d6f37e003e5b42a09e011e2b79e714cc0ed1b3a
         jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
