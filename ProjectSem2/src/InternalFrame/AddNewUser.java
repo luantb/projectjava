@@ -96,7 +96,6 @@ public class AddNewUser extends javax.swing.JInternalFrame {
 //                        jTextField2.setText("");
 //                        jPasswordField1.setText("");
 //                        jPasswordField2.setText("");
-                        ql.setData();
                         dispose();
                     }
                 }
@@ -273,7 +272,6 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:     
         this.checkAndAdd();
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed

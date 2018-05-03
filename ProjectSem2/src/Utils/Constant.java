@@ -53,7 +53,11 @@ public class Constant {
     // Cú pháp SQL
     public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ?";
     public static String SQL_GET_ALL_USER = "SELECT [user_id], name, username, "
-            + "password, user_role, [role].role_name FROM [user] INNER JOIN role ON [user].user_role = [role].role_id";
+            + "password, user_role, [role].role_name FROM [user] INNER JOIN role"
+            + " ON [user].user_role = [role].role_id";
+    public static String SQL_GET_ALL_USER1 = "SELECT [user_id], name, username, "
+            + "password, user_role, [role].role_name FROM [user] INNER JOIN role"
+            + " ON [user].user_role = [role].role_id WHERE user_id != ";
     public static String SQL_GET_ROLE_TO_SET = "SELECT * FROM [role]";
     public static String SQL_GET_USER_BY_ID = "SELECT * FROM [user] WHERE user_id = ?";
     public static String SQL_INSERT_USER = "INSERT INTO [user] ([name] ,[username] ,[password] ,[user_role]) VALUES (?, ?, ?, ?)";

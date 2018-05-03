@@ -8,6 +8,7 @@ package InternalFrame;
 import Entity.User;
 import ImplementInterface.UserImpl;
 import Interface.UserInterface;
+import MainFrame.MainFrame;
 import Utils.Constant;
 import Utils.DatabaseHelper;
 import Utils.DialogThongBao;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,15 +33,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hoang's PC
  */
-public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNhap.Callback {
+public class QuanLyNhanVien extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form AddNew
      */
+
+    public String getid(String str){
+        return str;
+    }
+    
     UserInterface ui = new UserImpl();
 //    DefaultTableModel dtm;
 //    DefaultComboBoxModel dcbm;
-    ArrayList<User> lstUser;
+    public ArrayList<User> lstUser;
     String strSetModel[] = new String[]{"Mã nhân viên", "Tên nhân viên", "Tên đăng nhập"};
     DefaultTableModel dtm = new DefaultTableModel(strSetModel, 0);
     DefaultComboBoxModel dcbm = new DefaultComboBoxModel<>(strSetModel);
@@ -60,16 +67,6 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
             dtm.addRow(data);
         }
         tblUser.setModel(dtm);
-    }
-
-    private int getUId() {
-        lstUser = ui.getAllUser();
-        int uID = 0;
-        for (int i = 0; i < lstUser.size(); i++) {
-            User get = lstUser.get(i);
-            uID = get.getUserId();
-        }
-        return uID;
     }
 
     private boolean checkOnly(JInternalFrame innerFrame) {
@@ -233,6 +230,11 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
         });
 
         jButton6.setText("Sửa");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Xóa");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -257,11 +259,11 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -372,7 +374,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane2))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
         );
 
         jDesktopPane1.setLayer(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -459,6 +461,13 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
 //        sort();
     }//GEN-LAST:event_jComboBox1MouseClicked
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+//        User u = new User();
+//        u = Security.curentLogin;
+//        System.out.println(u.getUserId());
+    }//GEN-LAST:event_jButton6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -466,7 +475,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    public javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -481,21 +490,10 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame implements DangNh
     private javax.swing.JLabel lblUserID;
     private javax.swing.JLabel lblUserRole;
     private javax.swing.JPasswordField pwPassword;
-    private javax.swing.JTable tblUser;
+    public javax.swing.JTable tblUser;
     private javax.swing.JTextField tfSearch;
     private javax.swing.JTextField tfUserName;
     private javax.swing.JTextField tfUserUserName;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void setRole(User u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void getID(User u) {
-        int uID = u.getUserId();
-        System.out.println(uID);
-    }
 
 }

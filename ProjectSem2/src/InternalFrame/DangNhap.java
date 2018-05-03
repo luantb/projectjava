@@ -17,35 +17,29 @@ import Utils.Security;
  * @author Hoang's PC
  */
 public class DangNhap extends javax.swing.JInternalFrame {
-    
+
     User u = new User();
 
     /**
      * Creates new form DangNhap
      */
     public interface Callback {
-        
+
         public void setRole(User u);
         public void getID(User u);
     }
-    
+
     Callback cb;
-    
+
     public void setupCallbackObject(Callback c) {
         this.cb = c;
     }
-    
+
     public DangNhap(java.awt.Frame parent, boolean modal) {
         initComponents();
         this.getRootPane().setDefaultButton(btnLogin);
     }
 
-//    public static DangNhap getInstance() {
-//        if (loginFrame == null) {
-//            loginFrame = new DangNhap();
-//        }
-//        return loginFrame;
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -189,9 +183,10 @@ public class DangNhap extends javax.swing.JInternalFrame {
             User user = ui.getUser(u);
             cb.setRole(user);
             cb.getID(user);
+//            System.out.println(user.getUserId());
         }
     }//GEN-LAST:event_btnLoginActionPerformed
-    
+
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:

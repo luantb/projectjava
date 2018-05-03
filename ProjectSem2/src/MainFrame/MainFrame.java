@@ -6,12 +6,16 @@
 package MainFrame;
 
 import Entity.User;
+import ImplementInterface.UserImpl;
 
 import InternalFrame.QuanLyNhanVien;
 import InternalFrame.DangNhap;
 import InternalFrame.SanPham;
 import Utils.Security;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 /**
@@ -44,6 +48,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu5.setEnabled(true);
         jMenu7.setEnabled(true);
         jMenuItem3.setEnabled(false);
+        jMenuItem5.setEnabled(true);
         jLabel1.setText("Xin chào: " + name);
     }
 
@@ -259,6 +264,10 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+        MainDesktopPain.removeAll();
+        MainDesktopPain.repaint();
+        MainDesktopPain.add(jLabel1);
+        jLabel1.setVisible(true);
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         showFrame(dn);
@@ -367,5 +376,13 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
     @Override
     public void getID(User u) {
+        UserImpl ui = new UserImpl();
+        QuanLyNhanVien ql = new QuanLyNhanVien();
+        ArrayList<User> user = ql.lstUser;
+//        UserId = ql.tblUser.getValueAt(ql.tblUser.getSelectedRow(), 0).toString();
+//        System.out.println(UserId);
+//        if (UserId == String.valueOf(u.getUserId())) {
+//            
+//        }
     }
 }

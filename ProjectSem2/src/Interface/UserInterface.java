@@ -28,4 +28,5 @@ public interface UserInterface {
     public boolean login(User u);
 
     public User getUser(User u);
+    
 }
