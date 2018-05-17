@@ -10,9 +10,11 @@ import ImplementInterface.UserImpl;
 
 import InternalFrame.QuanLyNhanVien;
 import InternalFrame.DangNhap;
+import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
 import Utils.Security;
 import java.awt.Dimension;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -248,9 +250,13 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        JInternalFrame sp = new SanPham();
-        showFrame(sp);
+        try {
+            // TODO add your handling code here:
+            JInternalFrame sp = new QuanLySanPham();
+            showFrame(sp);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu6ActionPerformed

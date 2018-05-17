@@ -15,11 +15,11 @@ public class Constant {
 
     public static Locale locale = new Locale("vi", "VN");
 
-    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS"; // localhost\\MINHVUFC-PC\\SQLEXPRESS2014
+    public static String host = "localhost\\DESKTOP-755C9DH\\SQLEXPRESS"; // localhost\\MINHVUFC-PC\\SQLEXPRESS2014
     public static String port = "1433"; // 3306
     public static String schema = "QuanLyCuaHang";
     public static String username = "sa"; // root
-    public static String password = "1234$"; // 
+    public static String password = "123456"; // 
 
     // Thông điệp
     public static String THONG_BAO_DANG_NHAP = "Thông báo đăng nhập";
@@ -49,6 +49,10 @@ public class Constant {
     public static String MSG_ADD_NULL = "Không được để trống trường";
     public static String MSG_ADD_SUCCESS = "Thêm dữ liệu thành công";
     public static String MSG_ADD_NOT_EQUAL = "Hai mật khẩu không trùng khớp";
+    public static String MSG_UPDATE_PRO= "Sửa dữ liệu";
+    public static String MSG_UPDATE_PRO_NOT_NUL_NAME = "Không Được để trống tên";
+    
+    
 
     // Cú pháp SQL
     public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ?";
@@ -94,7 +98,16 @@ public class Constant {
             + "SET ten_loai_taisan=?,"
             + "ghi_chu=? WHERE id = ?";
     public static String SQL_DELETE_NHOM_TAI_SAN = "DELETE FROM tbl_loai_taisan WHERE id = ?";
-
+    // san pham 
+     public  static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
+     
+     public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
+     
+     
+     
+     // category 
+     
+     public static String SQL_SELECT_ALL_CATEGORY = "SELECT * FROM category";
     // Khu vuc
     public static String SQL_SELECT_PHONG_BAN = "SELECT * FROM tbl_phongban_khuvuc";
     public static String SQL_INSERT_PHONG_BAN = "INSERT INTO tbl_phongban_khuvuc ("
