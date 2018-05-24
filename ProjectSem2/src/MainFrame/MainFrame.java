@@ -10,6 +10,8 @@ import ImplementInterface.UserImpl;
 
 import InternalFrame.QuanLyNhanVien;
 import InternalFrame.DangNhap;
+import InternalFrame.DanhMuc;
+import InternalFrame.QuanLyDanhMuc;
 import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
 import Utils.Security;
@@ -169,6 +171,11 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Danh Mục");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setText("Nhân Viên");
@@ -298,6 +305,15 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        try {
+            QuanLyDanhMuc qldm = new QuanLyDanhMuc();
+            showFrame(qldm);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -216,6 +216,11 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         jButton316.setText("Tải Lại DS");
 
         bt_pro_add.setText("Thêm");
+        bt_pro_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_pro_addActionPerformed(evt);
+            }
+        });
 
         bt_pro_update.setText("sửa");
         bt_pro_update.addActionListener(new java.awt.event.ActionListener() {
@@ -271,12 +276,10 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                                                     .addGap(34, 34, 34)
                                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jcb_cat_name, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                                                    .addComponent(bt_pro_update)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(bt_pro_delete))))))
+                                            .addComponent(bt_pro_update)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(bt_pro_delete))
+                                        .addComponent(jcb_cat_name, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
                                     .addGap(43, 43, 43)
                                     .addComponent(tf_proname, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -321,10 +324,10 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tf_pro_sort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblpro_sort)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jcb_cat_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcb_cat_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton316)
                     .addComponent(bt_pro_add)
@@ -390,29 +393,32 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
 
     private void bt_pro_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_updateActionPerformed
         Product pro = new Product();
-        Category prod = (Category) jcb_cat_name.getSelectedItem();
-        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
-        System.out.println();
-        pro.setCat_id(Integer.valueOf(prod.getCat_id()));
-        pro.setPro_name(String.valueOf(tf_proname.getText()));
-        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
-        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
-        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
-        rd_conhang.setActionCommand("1");
-        rd_hethang.setActionCommand("0");
-        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
-
-        if (tf_proname.getText().length() <= 0) {
-            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
-        } else {
-
-            try {
-                Proimpl.Updatepro(pro);
-
-            } catch (SQLException ex) {
-                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        Category cat = (Category) jcb_cat_name.getSelectedItem();
+        int cai_i= cat.getCat_id();
+        System.out.println("catid= " + cai_i);
+//        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
+//
+//        pro.setCat_id(1);
+//        pro.setPro_name(String.valueOf(tf_proname.getText()));
+//        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
+//        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
+//        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
+//        rd_conhang.setActionCommand("1");
+//        rd_hethang.setActionCommand("0");
+//        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
+//        System.out.println(pro.getPro_price());
+//        if (tf_proname.getText().length() <= 0) {
+//            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
+//        } else {
+//
+//            try {
+//
+//                Proimpl.Updatepro(pro);
+//
+//            } catch (SQLException ex) {
+//                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
 
 
     }//GEN-LAST:event_bt_pro_updateActionPerformed
@@ -444,24 +450,23 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                     for (int j = 0; j < lstCategory.size(); j++) {
                         Category get = lstCategory.get(j);
                         cat1[j] = get;
-                        if (pro.getCat_id() == get.getCat_id()) {
-                            System.out.println(get.getCat_id());
-                            System.out.println(pro.getCat_id());
-                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
-                        }
+
+//                        if (pro.getCat_id() == get.getCat_id()) {
+//                            System.out.println(get.getCat_id() + get.getCat_name());
+//                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
+//                        }
 
                     }
 
                     dcbm1 = new DefaultComboBoxModel<>(cat1);
                     jcb_cat_name.setModel(dcbm1);
-                    
-                     for (int j = 0; j < lstCategory.size(); j++) {
+
+                    for (int j = 0; j < lstCategory.size(); j++) {
                         Category get = lstCategory.get(j);
-                        if (pro.getCat_id() == get.getCat_id()) {
-                            System.out.println(get.getCat_id());
-                            System.out.println(pro.getCat_id());
-                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
-                        }
+//                        if (pro.getCat_id() == get.getCat_id()) {
+//                            System.out.println(pro.getCat_id());
+//                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
+//                        }
 
                     }
 
@@ -474,6 +479,10 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tlbproductsMouseClicked
+
+    private void bt_pro_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_addActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_pro_addActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -51,7 +51,12 @@ public class Category {
     public String toString() {
         return this.cat_name;
     }
-    
+    public String[] toArray() {
+        return new String[]{
+            String.valueOf(cat_id),
+            this.cat_name
+        };
+    }
     
     
     

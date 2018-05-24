@@ -251,15 +251,11 @@
                                                       </Group>
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="jcb_cat_name" max="32767" attributes="0"/>
-                                                      <Group type="102" alignment="1" attributes="0">
-                                                          <Component id="bt_pro_update" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="bt_pro_delete" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
+                                                  <Component id="bt_pro_update" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="bt_pro_delete" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <Component id="jcb_cat_name" alignment="1" min="-2" pref="108" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -322,12 +318,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tf_pro_sort" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblpro_sort" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel3" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jcb_cat_name" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel3" min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="64" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jcb_cat_name" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="42" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton316" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bt_pro_add" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -416,6 +411,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_pro_addActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="bt_pro_update">
               <Properties>

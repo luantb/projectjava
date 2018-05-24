@@ -102,6 +102,8 @@ public class Constant {
      public  static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
      
      public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
+     public static String PROC_ADD_CAT = "{Call addCategory(?,?)}";
+     public static String PROC_UPDATE_CAT = "{Call updateCategory(?,?,?)}";
      
      
      

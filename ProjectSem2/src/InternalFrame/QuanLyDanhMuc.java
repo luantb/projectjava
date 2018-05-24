@@ -6,30 +6,46 @@
 package InternalFrame;
 
 import Entity.Category;
-import Entity.Product;
 import ImplementInterface.categoryImpl;
-import MainFrame.MainFrame;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Hoang's PC
+ * @author devtr
  */
-public final class DanhMuc extends javax.swing.JInternalFrame {
+public class QuanLyDanhMuc extends javax.swing.JInternalFrame {
 
+    EditCat catinfo = new EditCat();
     categoryImpl catIplm = new categoryImpl();
     public ArrayList<Category> lstCategory;
     String strSetModel[] = new String[]{"ID Danh mục", "Tên", "Số TT"};
     DefaultTableModel dtmd = new DefaultTableModel(strSetModel, 0);
 
-    public DanhMuc() throws SQLException {
+    public QuanLyDanhMuc() {
+
         initComponents();
+        tbl_danh_muc.setDefaultEditor(Object.class, null);
+
+        try {
+            setdata();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDanhMuc.class.getName()).log(Level.SEVERE, null, ex);
+        }
         tbl_danh_muc.setModel(dtmd);
-        setdata();
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem menuItemAdd = new JMenuItem("Sửa");
+        JMenuItem menuItemRemove = new JMenuItem("Xóa");
+        popupMenu.add(menuItemAdd);
+        popupMenu.add(menuItemRemove);
+        tbl_danh_muc.setComponentPopupMenu(popupMenu);
     }
 
     public void setdata() throws SQLException {
@@ -43,6 +59,32 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
         tbl_danh_muc.setModel(dtmd);
     }
 
+    private boolean checkOnly(JInternalFrame innerFrame) {
+        JInternalFrame[] arrFrame = jDesktopPane_danh_muc.getAllFrames();
+        for (JInternalFrame frame : arrFrame) {
+            if (frame.getClass().getName() == innerFrame.getClass().getName()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void centerJIF(JInternalFrame jif) {
+        Dimension desktopSize = jDesktopPane_danh_muc.getSize();
+        Dimension jInternalFrameSize = jif.getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        jif.setLocation(width, height);
+        jif.setVisible(true);
+    }
+
+    private void showFrame(JInternalFrame jintr) {
+        if (!checkOnly(jintr)) {
+            jDesktopPane_danh_muc.add(jintr);
+            centerJIF(jintr);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,6 +94,7 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane_danh_muc = new javax.swing.JDesktopPane();
         jPanel_danh_muc = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_danh_muc = new javax.swing.JTable();
@@ -77,6 +120,11 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_danh_muc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_danh_mucMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_danh_muc);
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -102,19 +150,21 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel_danh_mucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_danh_mucLayout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(265, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel_danh_mucLayout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
         );
         jPanel_danh_mucLayout.setVerticalGroup(
             jPanel_danh_mucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_danh_mucLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel_danh_mucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
@@ -122,21 +172,28 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jDesktopPane_danh_muc.setLayer(jPanel_danh_muc, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane_danh_mucLayout = new javax.swing.GroupLayout(jDesktopPane_danh_muc);
+        jDesktopPane_danh_muc.setLayout(jDesktopPane_danh_mucLayout);
+        jDesktopPane_danh_mucLayout.setHorizontalGroup(
+            jDesktopPane_danh_mucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_danh_muc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDesktopPane_danh_mucLayout.setVerticalGroup(
+            jDesktopPane_danh_mucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_danh_muc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel_danh_muc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jDesktopPane_danh_muc)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel_danh_muc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jDesktopPane_danh_muc)
         );
 
         pack();
@@ -147,21 +204,39 @@ public final class DanhMuc extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        AddNewCat add = new AddNewCat();
-        add.setVisible(true);
+        JInternalFrame add = new AddNewCat();
+        showFrame(add);
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tbl_danh_mucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_danh_mucMouseClicked
+        String cat_id = tbl_danh_muc.getValueAt(tbl_danh_muc.getSelectedRow(), 0).toString();
+//       JInternalFrame add = new AddNewCat();
+//       showFrame(add);
+        for (int i = 0; i < lstCategory.size(); i++) {
+            Category get = lstCategory.get(i);
+            if (get.getCat_id() == Integer.valueOf(cat_id)) {
+                System.out.println("click cat_id=" + cat_id);
+                jDesktopPane_danh_muc.add(catinfo);
+                catinfo.setVisible(true);
+
+                catinfo.tf_cat_name.setText(get.getCat_name());
+                catinfo.tf_cat_sort.setText(String.valueOf(get.getSort()));
+                catinfo.lb_cat_id.setText(String.valueOf(get.getCat_id()));
+
+            }
+
+        }
+    }//GEN-LAST:event_tbl_danh_mucMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JDesktopPane jDesktopPane_danh_muc;
     private javax.swing.JPanel jPanel_danh_muc;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tbl_danh_muc;
     // End of variables declaration//GEN-END:variables
-
-
-  
-
 }

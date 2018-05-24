@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import Entity.Category;
 import Utils.Constant;
 import Utils.DatabaseHelper;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,5 +29,34 @@ public class categoryImpl {
             lstCategorys.add(cat);
         }
         return lstCategorys;
+    }
+    
+    public boolean addCategory(Category cat) throws SQLException{
+        DatabaseHelper db = new DatabaseHelper();
+        CallableStatement cabt = db.getConnection().prepareCall(Constant.PROC_ADD_CAT);
+        cabt.setString(1,cat.getCat_name());
+        cabt.setInt(2, cat.getSort());
+        int check = cabt.executeUpdate();
+        if(check >0){
+           System.out.println("add category success");
+           return true;
+        }
+        return false;
+        
+        
+    }
+    
+    public  boolean udateCategory(Category cat ) throws SQLException{
+        DatabaseHelper db = new DatabaseHelper();
+        CallableStatement cabt = db.getConnection().prepareCall(Constant.PROC_UPDATE_CAT);
+        cabt.setInt(1, cat.getCat_id());
+        cabt.setString(2,cat.getCat_name());
+        cabt.setInt(3, cat.getSort());
+        int check = cabt.executeUpdate();
+        if(check !=0){
+           System.out.println("update category success");
+           return true;
+        }
+        return false;
     }
 }
