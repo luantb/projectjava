@@ -11,6 +11,7 @@ import ImplementInterface.UserImpl;
 import InternalFrame.QuanLyNhanVien;
 import InternalFrame.DangNhap;
 import InternalFrame.DanhMuc;
+import InternalFrame.OrderFrame;
 import InternalFrame.QuanLyDanhMuc;
 import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
@@ -207,6 +208,11 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Đối tác");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu4);
 
         jMenu6.setText("Hệ thống");
@@ -327,6 +333,12 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         QuanLyDanhMuc qldm = new QuanLyDanhMuc();
         showFrame(qldm);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+        // TODO add your handling code here:
+        OrderFrame of = new OrderFrame();
+        showFrame(of);
+    }//GEN-LAST:event_jMenu4MouseClicked
 
     /**
      * @param args the command line arguments
