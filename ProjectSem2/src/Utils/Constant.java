@@ -51,6 +51,10 @@ public class Constant {
     public static String MSG_ADD_NOT_EQUAL = "Hai mật khẩu không trùng khớp";
     public static String MSG_UPDATE_PRO= "Sửa dữ liệu";
     public static String MSG_UPDATE_PRO_NOT_NUL_NAME = "Không Được để trống tên";
+    public static String MSG_UPDATE_PRO_NOT_NUL_PRICE = "Không Được để trống Giá";
+    public static String MSG_DELETE_PRO= "Xóa Dữ Liệu";
+    public static String MSG_DELETE_PRO_SUCCESS = "Xóa Sản Phẩm Thành Công";
+    public static String MSG_DELETE_PRO_ERROR = "Xóa Sản Phẩm Thất Bại";
     
     
 
@@ -99,11 +103,16 @@ public class Constant {
             + "ghi_chu=? WHERE id = ?";
     public static String SQL_DELETE_NHOM_TAI_SAN = "DELETE FROM tbl_loai_taisan WHERE id = ?";
     // san pham 
-     public  static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
+     public  static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product ";
      
      public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
      public static String PROC_ADD_CAT = "{Call addCategory(?,?)}";
      public static String PROC_UPDATE_CAT = "{Call updateCategory(?,?,?)}";
+     public static String PROC_DELETE_PRODUCT = "{Call deleteSanPham(?)}";
+     public static String PROC_NOT_IN_PRO = "{Call getAllProNotIn(?)}";
+     public static String PROC_CHECK_NAME_PRO = "{Call checkname}";
+     public static String PROC_ADD_PRO = "{Call addsanpham(?,?,?,?,?,?)}";
+     public static String PROC_CHECK_NAME_CAT_EDIT = "{Call checkNameEdit(?)}";
      
      
      

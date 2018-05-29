@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -111,12 +111,11 @@
                               <Component id="jButton1" pref="82" max="32767" attributes="0"/>
                               <Component id="jButton2" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" pref="575" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="629" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jPanel7" min="-2" pref="424" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,10 +134,10 @@
                               <Component id="jComboBoxSort" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="jButton2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="79" max="32767" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="262" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" min="-2" pref="323" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel7" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jPanel7" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -161,6 +160,9 @@
                     <Column editable="true" title="Title 3" type="java.lang.Object"/>
                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
+                </Property>
+                <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+                  <JTableSelectionModel selectionMode="0"/>
                 </Property>
               </Properties>
               <Events>
@@ -322,7 +324,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jcb_cat_name" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="42" max="32767" attributes="0"/>
+                      <EmptySpace pref="46" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton316" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bt_pro_add" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -427,6 +429,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_pro_deleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="tf_pro_id">
               <Properties>

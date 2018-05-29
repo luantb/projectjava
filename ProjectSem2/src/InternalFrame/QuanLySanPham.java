@@ -166,6 +166,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tlbproducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tlbproducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tlbproductsMouseClicked(evt);
@@ -230,6 +231,11 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         });
 
         bt_pro_delete.setText("Xóa");
+        bt_pro_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_pro_deleteActionPerformed(evt);
+            }
+        });
 
         tf_pro_id.setText("...");
 
@@ -327,7 +333,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jcb_cat_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton316)
                     .addComponent(bt_pro_add)
@@ -349,11 +355,10 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                         .addGap(61, 61, 61)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,8 +373,8 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxSort, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -394,31 +399,35 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
     private void bt_pro_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_updateActionPerformed
         Product pro = new Product();
         Category cat = (Category) jcb_cat_name.getSelectedItem();
-        int cai_i= cat.getCat_id();
+        int cai_i = cat.getCat_id();
         System.out.println("catid= " + cai_i);
-//        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
-//
-//        pro.setCat_id(1);
-//        pro.setPro_name(String.valueOf(tf_proname.getText()));
-//        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
-//        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
-//        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
-//        rd_conhang.setActionCommand("1");
-//        rd_hethang.setActionCommand("0");
-//        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
-//        System.out.println(pro.getPro_price());
-//        if (tf_proname.getText().length() <= 0) {
-//            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
-//        } else {
-//
-//            try {
-//
-//                Proimpl.Updatepro(pro);
-//
-//            } catch (SQLException ex) {
-//                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
+
+        pro.setCat_id(cai_i);
+        pro.setPro_name(String.valueOf(tf_proname.getText()));
+        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
+        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
+        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
+        rd_conhang.setActionCommand("1");
+        rd_hethang.setActionCommand("0");
+        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
+        System.out.println(pro.getPro_price());
+        if (tf_proname.getText().length() <= 0) {
+            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
+        } else {
+            try {
+                boolean checkName = Proimpl.checknameEdit(Integer.valueOf(tf_pro_id.getText()), tf_proname.getText().trim());
+                if (!checkName) {
+                    Proimpl.Updatepro(pro);
+                    setdata();
+                } else {
+                    DialogThongBao.showAlert(this, " Sai thông tin", "Tên Sản phẩm đã tồn tại");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
 
 
     }//GEN-LAST:event_bt_pro_updateActionPerformed
@@ -451,11 +460,6 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                         Category get = lstCategory.get(j);
                         cat1[j] = get;
 
-//                        if (pro.getCat_id() == get.getCat_id()) {
-//                            System.out.println(get.getCat_id() + get.getCat_name());
-//                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
-//                        }
-
                     }
 
                     dcbm1 = new DefaultComboBoxModel<>(cat1);
@@ -463,10 +467,6 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
 
                     for (int j = 0; j < lstCategory.size(); j++) {
                         Category get = lstCategory.get(j);
-//                        if (pro.getCat_id() == get.getCat_id()) {
-//                            System.out.println(pro.getCat_id());
-//                            jcb_cat_name.getModel().setSelectedItem(get.getCat_name());
-//                        }
 
                     }
 
@@ -479,10 +479,62 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tlbproductsMouseClicked
-
+    
     private void bt_pro_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_addActionPerformed
-        // TODO add your handling code here:
+        Product pro = new Product();
+        Category cat = (Category) jcb_cat_name.getSelectedItem();
+        int cai_i = cat.getCat_id();
+        System.out.println("catid= " + cai_i);
+        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
+
+        pro.setCat_id(cai_i);
+        pro.setPro_name(String.valueOf(tf_proname.getText()));
+        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
+        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
+        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
+        rd_conhang.setActionCommand("1");
+        rd_hethang.setActionCommand("0");
+        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
+        System.out.println(pro.getPro_price());
+        if (tf_proname.getText().length() <= 0) {
+            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
+        }else if (tf_pro_price.getText().length() <= 0) {
+            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_PRICE);
+        }  else {
+            try {
+                boolean checkName = Proimpl.checkname(tf_proname.getText().trim());
+                if (!checkName) {
+                    Proimpl.InSertPro(pro);
+                    setdata();
+                } else {
+                    DialogThongBao.showAlert(this, " Sai thông tin", "Tên Sản phẩm đã tồn tại");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+
+     
     }//GEN-LAST:event_bt_pro_addActionPerformed
+
+    private void bt_pro_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_deleteActionPerformed
+        try {
+            int pro_id = Integer.valueOf(tf_pro_id.getText());
+            if (DialogThongBao.showAlert(this, "Xác Nhận", "Bạn có chắc muốn xóa") == 0) {
+                if (Proimpl.DeletePro(pro_id)) {
+                    DialogThongBao.showSuccess(this, Constant.MSG_DELETE_PRO, Constant.MSG_DELETE_PRO_SUCCESS);
+                    setdata();
+                } else {
+                    DialogThongBao.showError(this, Constant.MSG_DELETE_PRO, Constant.MSG_DELETE_PRO_ERROR);
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_pro_deleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

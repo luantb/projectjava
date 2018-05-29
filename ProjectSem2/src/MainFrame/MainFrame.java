@@ -307,12 +307,8 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        try {
-            QuanLyDanhMuc qldm = new QuanLyDanhMuc();
-            showFrame(qldm);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        QuanLyDanhMuc qldm = new QuanLyDanhMuc();
+        showFrame(qldm);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
