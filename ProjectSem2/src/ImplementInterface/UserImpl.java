@@ -111,11 +111,33 @@ public class UserImpl implements UserInterface {
     }
 
     @Override
+    public ArrayList<User> getUserbyName(String username) {
+        DatabaseHelper dtb = new DatabaseHelper();
+        String sql = Constant.SQL_GET_USER_BY_NAME + "'%" + username + "%'";
+        Statement stt;
+        ArrayList<User> lstUser = new ArrayList<>();
+        try {
+            stt = dtb.getConnection().createStatement();
+            ResultSet rs = stt.executeQuery(sql);
+            while (rs.next()) {
+                User u = new User(rs.getInt("user_id"), rs.getString("name"),
+                        rs.getString("username"), rs.getString("password"),
+                        rs.getInt("user_role"), rs.getString("role_name"));
+                lstUser.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstUser;
+    }
+
+    @Override
     public User getUser(User u) {
+
         User user = new User();
+        String param[] = new String[]{u.getUsername(), u.getPassword()};
         try {
             DatabaseHelper dtb = new DatabaseHelper();
-            String param[] = new String[]{u.getUsername(), u.getPassword()};
             ResultSet rs = dtb.selectData(Constant.SQL_LOGIN, param);
             while (rs.next()) {
                 user.setUserId(rs.getInt("user_id"));
@@ -125,9 +147,8 @@ public class UserImpl implements UserInterface {
                 user.setName(rs.getString("name"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }
-
 }

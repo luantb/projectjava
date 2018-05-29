@@ -7,7 +7,6 @@ package ImplementInterface;
 
 import java.util.ArrayList;
 import Entity.Category;
-import Entity.Product;
 import Utils.Constant;
 import Utils.DatabaseHelper;
 import java.sql.CallableStatement;
@@ -59,62 +58,5 @@ public class categoryImpl {
            return true;
         }
         return false;
-    }
-    
-    public boolean checknameEdit(int cat_id ,String cat_name) throws SQLException{
-                DatabaseHelper Db = new DatabaseHelper();
-        ArrayList<Category> lstCategorys = new ArrayList<>();
-        int count = 0 ;
-        boolean check = false;
-        CallableStatement castm =  Db.getConnection().prepareCall(Constant.PROC_CHECK_NAME_CAT_EDIT);
-        castm.setInt(1, cat_id);
-        ResultSet rs = castm.executeQuery();
-        
-        while (rs.next()) {            
-                Category cat = new Category(rs.getInt("cat_id"),rs.getString("cat_name"),rs.getInt("sort"));
-            
-        }
-        for (int i = 0; i < lstCategorys.size(); i++) {
-            Category  get = lstCategorys.get(i);
-            System.out.println(cat_name +"--"+ get.getCat_name());
-            if (cat_name.equals(get.getCat_name())) {
-                System.out.println("Sai mà");
-                 count = count+1;
-            }
-        }
-        if (count>0) {
-              check= true;
-             System.out.println(count);
-        }
-        System.out.println(check);
-        return check ;
-        
-    }
-    public boolean checkname(String cat_name) throws SQLException{
-                DatabaseHelper Db = new DatabaseHelper();
-        ArrayList<Category> lstCategorys = new ArrayList<>();
-        int count = 0 ;
-        boolean check = false;
-        CallableStatement castm =  Db.getConnection().prepareCall(Constant.SQL_SELECT_ALL_CATEGORY);
-        ResultSet rs = castm.executeQuery();
-        
-        while (rs.next()) {            
-                Category cat = new Category(rs.getInt("cat_id"),rs.getString("cat_name"),rs.getInt("sort"));
-        }
-        for (int i = 0; i < lstCategorys.size(); i++) {
-            Category  get = lstCategorys.get(i);
-            System.out.println(cat_name +"--"+ get.getCat_name());
-            if (cat_name.equals(get.getCat_name())) {
-                System.out.println("Sai mà");
-                 count = count+1;
-            }
-        }
-        if (count>0) {
-              check= true;
-             System.out.println(count);
-        }
-        System.out.println(check);
-        return check ;
-        
     }
 }

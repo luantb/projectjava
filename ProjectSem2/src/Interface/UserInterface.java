@@ -26,7 +26,8 @@ public interface UserInterface {
     public User getUserById(int Id);
 
     public boolean login(User u);
-
-    public User getUser(User u);
     
+    public User getUser(User u);
+
+    public ArrayList<User> getUserbyName(String username);  
 }

@@ -27,7 +27,4 @@ public class DialogThongBao {
         return JOptionPane.showOptionDialog(parent, noidung, tieuDe, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[]{"Đồng ý", "Hủy"}, null);
     }
 
-    public static void showSuccess(AddNewCat aThis, String đã_xóa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

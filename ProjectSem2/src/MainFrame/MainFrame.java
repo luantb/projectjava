@@ -44,6 +44,10 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 //            loginFrame.show();
 //        }
 //    }
+    
+    private void game(){
+        
+    }
     private void loginTrue(String name) {
         jMenu1.setEnabled(true);
         jMenu2.setEnabled(true);
@@ -125,8 +129,13 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ProjectJava");
@@ -162,6 +171,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
         jMenu2.setText("Quản Lý");
 
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Ecommerce-Product-icon.png"))); // NOI18N
         jMenuItem1.setText("Sản Phẩm");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +180,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         });
         jMenu2.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/category-icon.png"))); // NOI18N
         jMenuItem2.setText("Danh Mục");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,6 +189,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         });
         jMenu2.add(jMenuItem2);
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Office-Customer-Male-Light-icon.png"))); // NOI18N
         jMenuItem3.setText("Nhân Viên");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,18 +236,28 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
             }
         });
         jMenu6.add(jMenuItem5);
+        jMenu6.add(jSeparator1);
 
-        jMenuItem6.setText("Ngôn ngữ");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem6);
+        jMenu8.setText("Ngôn ngữ");
+
+        jMenuItem7.setText("Tiếng Việt");
+        jMenu8.add(jMenuItem7);
+
+        jMenuItem8.setText("English");
+        jMenu8.add(jMenuItem8);
+
+        jMenu6.add(jMenu8);
 
         jMenuBar1.add(jMenu6);
 
         jMenu7.setText("Game cuối ngày");
+
+        jMenuItem6.setText("Đăng ký");
+        jMenu7.add(jMenuItem6);
+
+        jMenuItem9.setText("Danh sách đăng ký");
+        jMenu7.add(jMenuItem9);
+
         jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
@@ -301,11 +323,6 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         showFrame(qlnv);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         QuanLyDanhMuc qldm = new QuanLyDanhMuc();
         showFrame(qldm);
@@ -356,6 +373,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -363,6 +381,10 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
     @Override
