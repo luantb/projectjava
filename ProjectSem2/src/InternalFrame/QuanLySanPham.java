@@ -213,7 +213,12 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
 
         lblpro_sort.setText("Thứ Tự HT:");
 
-        jButton316.setText("Tải Lại DS");
+        jButton316.setText("Xuất Dữ Liệu");
+        jButton316.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton316ActionPerformed(evt);
+            }
+        });
 
         bt_pro_add.setText("Thêm");
         bt_pro_add.addActionListener(new java.awt.event.ActionListener() {
@@ -230,6 +235,11 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         });
 
         bt_pro_delete.setText("Xóa");
+        bt_pro_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_pro_deleteActionPerformed(evt);
+            }
+        });
 
         tf_pro_id.setText("...");
 
@@ -398,8 +408,8 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         } else {
 
             try {
-
                 Proimpl.Updatepro(pro);
+                DialogThongBao.showSuccess(this, "Thành Công", "Sửa Sản Phẩm thành công ");
                 setdata();
 
             } catch (SQLException ex) {
@@ -466,8 +476,61 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tlbproductsMouseClicked
 
     private void bt_pro_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_addActionPerformed
-        // TODO add your handling code here:
+        Product pro = new Product();
+        Category cat = (Category) jcb_cat_name.getSelectedItem();
+        int cai_i = cat.getCat_id();
+        System.out.println("catid= " + cai_i);
+        pro.setPro_id(Integer.valueOf(tf_pro_id.getText()));
+
+        pro.setCat_id(cai_i);
+        pro.setPro_name(String.valueOf(tf_proname.getText()));
+        pro.setPro_desc(String.valueOf(tf_pro_desc.getText()));
+        pro.setSort(Integer.valueOf(tf_pro_sort.getText()));
+        pro.setPro_price(Float.valueOf(tf_pro_price.getText()));
+        rd_conhang.setActionCommand("1");
+        rd_hethang.setActionCommand("0");
+        pro.setPro_status(Integer.valueOf(buttonGroup_pro_status.getSelection().getActionCommand()));
+        System.out.println(pro.getPro_price());
+        if (tf_proname.getText().length() <= 0) {
+            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_NAME);
+        } else if (tf_pro_price.getText().length() <= 0) {
+            DialogThongBao.showSuccess(this, Constant.MSG_UPDATE_PRO, Constant.MSG_UPDATE_PRO_NOT_NUL_PRICE);
+        } else {
+            try {
+                boolean checkName = Proimpl.checkname(tf_proname.getText().trim());
+                if (!checkName) {
+                    Proimpl.InSertPro(pro);
+                    setdata();
+                } else {
+                    DialogThongBao.showAlert(this, " Sai thông tin", "Tên Sản phẩm đã tồn tại");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }//GEN-LAST:event_bt_pro_addActionPerformed
+
+    private void bt_pro_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_deleteActionPerformed
+           try {
+            int pro_id = Integer.valueOf(tf_pro_id.getText());
+            if (DialogThongBao.showAlert(this, "Xác Nhận", "Bạn có chắc muốn xóa") == 0) {
+                if (Proimpl.DeletePro(pro_id)) {
+                    DialogThongBao.showSuccess(this, Constant.MSG_DELETE_PRO, Constant.MSG_DELETE_PRO_SUCCESS);
+                    setdata();
+                } else {
+                    DialogThongBao.showError(this, Constant.MSG_DELETE_PRO, Constant.MSG_DELETE_PRO_ERROR);
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_pro_deleteActionPerformed
+
+    private void jButton316ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton316ActionPerformed
+        
+    }//GEN-LAST:event_jButton316ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
