@@ -17,10 +17,12 @@ import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
 import Utils.Security;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -97,12 +99,19 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
             centerJIF(jintr);
         }
     }
+    
+    private void setMaxSize(){
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setMaximumSize(dim);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
 
     public MainFrame() {
         initComponents();
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         loginFalse();
+//        setMaxSize();
         showFrame(dn);
 //        showLogin();
     }
@@ -146,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         MainDesktopPain.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
 
         MainDesktopPain.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 

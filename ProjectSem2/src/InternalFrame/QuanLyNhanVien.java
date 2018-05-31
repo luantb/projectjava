@@ -8,12 +8,14 @@ package InternalFrame;
 import Entity.User;
 import ImplementInterface.UserImpl;
 import Interface.UserInterface;
-import MainFrame.MainFrame;
 import Utils.Constant;
 import Utils.DatabaseHelper;
 import Utils.DialogThongBao;
-import Utils.Security;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,13 +23,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -38,11 +40,10 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
     /**
      * Creates new form AddNew
      */
-
-    public String getid(String str){
+    public String getid(String str) {
         return str;
     }
-    
+
     UserInterface ui = new UserImpl();
 //    DefaultTableModel dtm;
 //    DefaultComboBoxModel dcbm;
@@ -95,7 +96,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
         }
     }
 
-    private void sort() {
+    public void sort() {
         dtm.setRowCount(0);
         String str = (String) jComboBox1.getSelectedItem();
         DatabaseHelper dtb = new DatabaseHelper();
@@ -143,6 +144,75 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
         }
     }
 
+    public String chooseFilepath() {
+// Dùng dialog chọn file lấy về đường dẫn để ghi file
+        File file = null;
+        jFileChooser1.setCurrentDirectory(new File("C:\\Users\\ThinkPad\\Desktop"));
+        int chooser = jFileChooser1.showSaveDialog(this);
+        if (chooser == JFileChooser.APPROVE_OPTION) {
+            file = jFileChooser1.getSelectedFile();
+        }
+        return file.toString();
+    }
+
+    public void writeExcelFile() {
+//        Khai báo các biến để cài đặt trong file excel
+        HSSFWorkbook hw = new HSSFWorkbook();
+        HSSFSheet hs = hw.createSheet("Sheet 1"); // Tạo sheet
+        Cell cell;
+        int rownum = 0;
+        Row row = hs.createRow(rownum);
+
+        lstUser = ui.getAllUser();  // Lấy thông tin từ danh sách User để set data cho file 
+
+//        Tạo các dòng đầu cố định
+        cell = row.createCell(0);
+        cell.setCellValue("Mã nhân viên");
+
+        cell = row.createCell(1);
+        cell.setCellValue("Tên nhân viên");
+
+        cell = row.createCell(2);
+        cell.setCellValue("Tên đăng nhập");
+
+        cell = row.createCell(3);
+        cell.setCellValue("Chức vụ");
+
+//        Lấy data và set giá trị cho các ô
+        for (int i = 0; i < lstUser.size(); i++) { // Vòng for lặp theo chiều từ trên xuống dưới trong file excel
+            User get = lstUser.get(i);
+            rownum++;
+            row = hs.createRow(rownum);
+
+            cell = row.createCell(0);
+            cell.setCellValue(get.getUserId());
+
+            cell = row.createCell(1);
+            cell.setCellValue(get.getName());
+
+            cell = row.createCell(2);
+            cell.setCellValue(get.getUsername());
+
+            cell = row.createCell(3);
+            cell.setCellValue(get.getRole());
+
+        }
+//        Ghi file
+
+        File file = new File(chooseFilepath() + ".xls");
+        file.getParentFile().mkdirs();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            hw.write(fos);
+            DialogThongBao.showSuccess(this, "Thông báo", "Ghi file thành công\n"
+                    + "Đường dẫn: " + file.getAbsolutePath());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(QuanLyNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(QuanLyNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public QuanLyNhanVien() {
         initComponents();
         setData();
@@ -158,6 +228,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -178,6 +249,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
         lblUserRole = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         tfSearch = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -252,10 +324,29 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton4.setText("Xuất file excel");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7)
+                .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,15 +370,6 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jButton8)
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
-                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +396,9 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
                         .addComponent(jLabel12)
                         .addComponent(jButton8))
                     .addComponent(lblUserRole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
                     .addComponent(jButton6)
@@ -367,17 +451,15 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, 216, Short.MAX_VALUE)
                             .addComponent(tfSearch))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton2)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                        .addGap(341, 341, 341)))
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -460,6 +542,11 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
             ui.delete(userid);
             DialogThongBao.showSuccess(this, "Xóa", "Đã xóa!");
             setData();
+            lblUserID.setText("");
+            tfUserName.setText("");
+            tfUserUserName.setText("");
+            pwPassword.setText("");
+            lblUserRole.setText("");
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -510,7 +597,7 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String str = tfSearch.getText();
 //        ui.getUserbyName(str);
-       ArrayList<User> lstUser = ui.getUserbyName(str);
+        ArrayList<User> lstUser = ui.getUserbyName(str);
         dtm.setRowCount(0);
         for (int i = 0; i < lstUser.size(); i++) {
             User get = lstUser.get(i);
@@ -520,17 +607,24 @@ public class QuanLyNhanVien extends javax.swing.JInternalFrame {
         tblUser.setModel(dtm);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        this.writeExcelFile();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     public javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
