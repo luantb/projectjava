@@ -63,6 +63,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x110;&#x1ed1;i t&#xe1;c"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu4MouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>
