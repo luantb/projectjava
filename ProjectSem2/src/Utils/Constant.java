@@ -15,11 +15,13 @@ public class Constant {
 
     public static Locale locale = new Locale("vi", "VN");
 
-    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS"; // DESKTOP-755C9DH  DESKTOP-65396KU
+//    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS"; 
+    public static String host = "localhost\\DESKTOP-755C9DH\\SQLEXPRESS"; 
     public static String port = "1433"; // 3306
     public static String schema = "QuanLyCuaHang";
     public static String username = "sa"; // root
-    public static String password = "1234$"; // 
+//    public static String password = "1234$"; // 
+    public static String password = "123456"; // 
 
     // Thông điệp
     public static String THONG_BAO_DANG_NHAP = "Thông báo đăng nhập";

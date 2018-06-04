@@ -111,7 +111,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         loginFalse();
-//        setMaxSize();
+        setMaxSize();
         showFrame(dn);
 //        showLogin();
     }
@@ -344,9 +344,13 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-        // TODO add your handling code here:
-        OrderFrame of = new OrderFrame();
-        showFrame(of);
+        try {
+            // TODO add your handling code here:
+            OrderFrame of = new OrderFrame();
+            showFrame(of);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenu4MouseClicked
 
     /**
