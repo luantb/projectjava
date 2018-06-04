@@ -11,6 +11,7 @@ import ImplementInterface.ProductImpl;
 import ImplementInterface.categoryImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -369,33 +370,52 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
             }
             tbl_list_order.setModel(dtmd_order);
+            
+            
 
             int rowCount = tbl_list_order.getRowCount();
-            System.out.println(rowCount + "rowCount");
-            if (rowCount > 0) {
-                for (int i = 0; i < rowCount; i++) {
-                    String pro = tbl_list_order.getValueAt(i, 0).toString();
-                    lstpro_order.add(Integer.valueOf(pro));
-                }
-                for (int i = 0; i < lstpro_order.size(); i++) {
-                    Integer get = lstpro_order.get(i);
-                    if (get == Integer.valueOf(pro_id)) {
-                        for (int j = 0; j < lstProducts.size(); j++) {
-                            Product get_sp = lstProducts.get(j);
-                            if (pro_id.equals(String.valueOf(get_sp.getPro_id()))) {
-
-                                Object data[] = {get_sp.getPro_id(), get_sp.getPro_name(), get_sp.getPro_price(), quantity};
-
-                                dtmd_order.addRow(data);
-
-                            }
-
-                        }
-                    }
-                }
-                tbl_list_order.setModel(dtmd_order);
-
+            for (int i = 0; i < rowCount; i++) {
+                String pro = tbl_list_order.getValueAt(i, 0).toString();
+                lstpro_order.add(Integer.valueOf(pro));
             }
+            for (int i = 0; i < lstpro_order.size(); i++) {
+                Integer get = lstpro_order.get(i);
+                if (get == Integer.parseInt(pro_id)) {
+                    System.out.println("Trùng");
+                    if (rowCount >= i) {
+                        dtmd_order.removeRow(i);
+//                    continue;
+                    }
+                }else{
+                    System.out.println("Ok");
+                }
+            }
+            
+//            System.out.println("rowCount =" + rowCount);
+//            if (rowCount > 1) {
+//                for (int i = 0; i < rowCount; i++) {
+//                    String pro = tbl_list_order.getValueAt(i, 0).toString();
+//                    lstpro_order.add(Integer.valueOf(pro));
+//                }
+//                for (int i = 0; i < lstpro_order.size(); i++) {
+//                    Integer get = lstpro_order.get(i);
+//                    if (get == Integer.valueOf(pro_id)) {
+//                        System.out.println("removeRow at" +get);
+//                        dtmd_order.removeRow(i);
+//                        
+//                    }else{
+//                        for (int j = 0; j < lstProducts.size(); j++) {
+//                            Product get_sp = lstProducts.get(j);
+//                            if (pro_id.equals(String.valueOf(get_sp.getPro_id())) && !Objects.equals(get, pro_id)) {
+//                                Object data[] = {get_sp.getPro_id(), get_sp.getPro_name(), get_sp.getPro_price(), quantity};
+//                                dtmd_order.addRow(data);
+//                            }
+//                        }
+//                    }
+//                }
+//                tbl_list_order.setModel(dtmd_order);
+//
+//            }
 
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);

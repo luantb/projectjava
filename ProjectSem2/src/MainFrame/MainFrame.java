@@ -111,7 +111,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         loginFalse();
-        setMaxSize();
+//        setMaxSize();
         showFrame(dn);
 //        showLogin();
     }
