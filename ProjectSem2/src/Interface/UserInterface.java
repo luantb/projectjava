@@ -26,8 +26,12 @@ public interface UserInterface {
     public User getUserById(int Id);
 
     public boolean login(User u);
-    
+
     public User getUser(User u);
 
-    public ArrayList<User> getUserbyName(String username);  
+    public void getUserNoReturn(User u);
+
+    public ArrayList<User> getUserbyName(String username);
+    
+        public ArrayList<User> getAllUserExceptCurrent(int currentId);
 }

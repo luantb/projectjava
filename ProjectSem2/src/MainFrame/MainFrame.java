@@ -7,6 +7,7 @@ package MainFrame;
 
 import Entity.User;
 import ImplementInterface.UserImpl;
+import InternalFrame.ChangePass;
 
 import InternalFrame.QuanLyNhanVien;
 import InternalFrame.DangNhap;
@@ -15,6 +16,9 @@ import InternalFrame.OrderFrame;
 import InternalFrame.QuanLyDanhMuc;
 import InternalFrame.QuanLySanPham;
 import InternalFrame.SanPham;
+import InternalFrame.GameRes;
+import InternalFrame.ListGameRes;
+import InternalFrame.playGame;
 import Utils.Security;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -47,10 +51,6 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 //            loginFrame.show();
 //        }
 //    }
-    
-    private void game(){
-        
-    }
     private void loginTrue(String name) {
         jMenu1.setEnabled(true);
         jMenu2.setEnabled(true);
@@ -60,10 +60,12 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu7.setEnabled(true);
         jMenuItem3.setEnabled(false);
         jMenuItem5.setEnabled(true);
+        jMenuItem10.setEnabled(true);
         jLabel1.setText("Xin chào: " + name);
     }
 
     private void loginFalse() {
+        Security.curentLogin = null;
         jMenu1.setEnabled(false);
         jMenu2.setEnabled(false);
         jMenu3.setEnabled(false);
@@ -71,10 +73,11 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu5.setEnabled(false);
         jMenu7.setEnabled(false);
         jMenuItem5.setEnabled(false);
+        jMenuItem10.setEnabled(false);
         jLabel1.setText("Bạn chưa đăng nhập!");
     }
 
-    private boolean checkOnly(JInternalFrame innerFrame) {
+    public boolean checkOnly(JInternalFrame innerFrame) {
         JInternalFrame[] arrFrame = MainDesktopPain.getAllFrames();
         for (JInternalFrame frame : arrFrame) {
             if (frame.getClass().getName() == innerFrame.getClass().getName()) {
@@ -93,14 +96,14 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jif.setVisible(true);
     }
 
-    private void showFrame(JInternalFrame jintr) {
+    public void showFrame(JInternalFrame jintr) {
         if (!checkOnly(jintr)) {
             MainDesktopPain.add(jintr);
             centerJIF(jintr);
         }
     }
-    
-    private void setMaxSize(){
+
+    private void setMaxSize() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setMaximumSize(dim);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -138,6 +141,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu4 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu8 = new javax.swing.JMenu();
@@ -146,6 +150,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu7 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ProjectJava");
@@ -214,9 +219,14 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenuBar1.add(jMenu3);
 
         jMenu5.setText("Báo cáo");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu5);
 
-        jMenu4.setText("Đối tác");
+        jMenu4.setText("Order");
         jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu4MouseClicked(evt);
@@ -244,6 +254,14 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         });
         jMenu6.add(jMenuItem4);
 
+        jMenuItem10.setText("Đổi mật khẩu");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
         jMenuItem5.setText("Đăng xuất");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,10 +286,28 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         jMenu7.setText("Game cuối ngày");
 
         jMenuItem6.setText("Đăng ký");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem6);
 
         jMenuItem9.setText("Danh sách đăng ký");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem9);
+
+        jMenuItem11.setText("Bắt đầu chơi");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem11);
 
         jMenuBar1.add(jMenu7);
 
@@ -349,6 +385,34 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         showFrame(of);
     }//GEN-LAST:event_jMenu4MouseClicked
 
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        // TODO add your handling code here: 
+    }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        GameRes g = new GameRes();
+        showFrame(g);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        ChangePass ch = new ChangePass();
+        showFrame(ch);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        ListGameRes g = new ListGameRes();
+        showFrame(g);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        playGame p = new playGame();
+        showFrame(p);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -397,6 +461,8 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -410,40 +476,24 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
     @Override
     public void setRole(User u) {
+        loginTrue(u.getName());
         uRole = u.getUserRole();
         switch (uRole) {
             case 1:
-                loginTrue(u.getName());
                 jMenuItem3.setEnabled(true);
                 break;
             case 2:
-                loginTrue(u.getName());
                 jMenu2.setEnabled(false);
                 break;
             case 3:
-                loginTrue(u.getName());
                 jMenu3.setEnabled(false);
                 break;
             case 4:
-                loginTrue(u.getName());
                 jMenu4.setEnabled(false);
                 break;
             case 5:
-                loginTrue(u.getName());
                 jMenu5.setEnabled(false);
                 break;
         }
-    }
-
-    @Override
-    public void getID(User u) {
-        UserImpl ui = new UserImpl();
-        QuanLyNhanVien ql = new QuanLyNhanVien();
-        ArrayList<User> user = ql.lstUser;
-//        UserId = ql.tblUser.getValueAt(ql.tblUser.getSelectedRow(), 0).toString();
-//        System.out.println(UserId);
-//        if (UserId == String.valueOf(u.getUserId())) {
-//            
-//        }
     }
 }

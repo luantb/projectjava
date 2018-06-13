@@ -54,8 +54,8 @@ public class UserImpl implements UserInterface {
         DatabaseHelper dtb = new DatabaseHelper();
         ArrayList<User> lstUser = new ArrayList<>();
         try {
-            Statement stt = dtb.getConnection().createStatement();
-            ResultSet rs = stt.executeQuery(Constant.SQL_GET_ALL_USER);
+
+            ResultSet rs = dtb.selectData(Constant.SQL_GET_ALL_USER);
             while (rs.next()) {
                 User u = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getInt("user_role"), rs.getString("role_name"));
                 lstUser.add(u);
@@ -95,7 +95,6 @@ public class UserImpl implements UserInterface {
             if (rs != null) {
                 rs.last();
                 if (rs.getRow() > 0) {
-                    Security.curentLogin = u;
                     return true;
                 } else {
                     return false;
@@ -113,12 +112,10 @@ public class UserImpl implements UserInterface {
     @Override
     public ArrayList<User> getUserbyName(String username) {
         DatabaseHelper dtb = new DatabaseHelper();
-        String sql = Constant.SQL_GET_USER_BY_NAME + "'%" + username + "%'";
-        Statement stt;
         ArrayList<User> lstUser = new ArrayList<>();
         try {
-            stt = dtb.getConnection().createStatement();
-            ResultSet rs = stt.executeQuery(sql);
+
+            ResultSet rs = dtb.selectData(Constant.SQL_GET_ALL_USER + "AND name LIKE '%" + username + "%'");
             while (rs.next()) {
                 User u = new User(rs.getInt("user_id"), rs.getString("name"),
                         rs.getString("username"), rs.getString("password"),
@@ -150,5 +147,43 @@ public class UserImpl implements UserInterface {
             Logger.getLogger(UserImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
+    }
+
+    @Override
+    public void getUserNoReturn(User u) {
+        User user = new User();
+        String param[] = new String[]{u.getUsername(), u.getPassword()};
+        try {
+            DatabaseHelper dtb = new DatabaseHelper();
+            ResultSet rs = dtb.selectData(Constant.SQL_LOGIN, param);
+            while (rs.next()) {
+                user.setUserId(rs.getInt("user_id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setUserRole(rs.getInt("user_role"));
+                user.setName(rs.getString("name"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Security.curentLogin = user;
+    }
+
+    @Override
+    public ArrayList<User> getAllUserExceptCurrent(int currentId) {
+        DatabaseHelper dtb = new DatabaseHelper();
+        ArrayList<User> lstUser = new ArrayList<>();
+        try {
+
+            ResultSet rs = dtb.selectData(Constant.SQL_GET_ALL_USER1, currentId);
+            while (rs.next()) {
+                User u = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getInt("user_role"), rs.getString("role_name"));
+                lstUser.add(u);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lstUser;
     }
 }

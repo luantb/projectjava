@@ -49,31 +49,26 @@ public class Constant {
     public static String MSG_ADD_NULL = "Không được để trống trường";
     public static String MSG_ADD_SUCCESS = "Thêm dữ liệu thành công";
     public static String MSG_ADD_NOT_EQUAL = "Hai mật khẩu không trùng khớp";
-    public static String MSG_UPDATE_PRO= "Sửa dữ liệu";
+    public static String MSG_UPDATE_PRO = "Sửa dữ liệu";
     public static String MSG_UPDATE_PRO_NOT_NUL_NAME = "Không Được để trống tên";
     public static String MSG_UPDATE_PRO_NOT_NUL_PRICE = "Không Được để trống Giá";
-    public static String MSG_DELETE_PRO= "Xóa Dữ Liệu";
+    public static String MSG_DELETE_PRO = "Xóa Dữ Liệu";
     public static String MSG_DELETE_PRO_SUCCESS = "Xóa Sản Phẩm Thành Công";
     public static String MSG_DELETE_PRO_ERROR = "Xóa Sản Phẩm Thất Bại";
-    
 
     // Cú pháp SQL
-    public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ?";
+    public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ? AND is_delete = 'false'";
     public static String SQL_GET_ALL_USER = "SELECT [user_id], name, username, "
             + "password, user_role, [role].role_name FROM [user] INNER JOIN role"
-            + " ON [user].user_role = [role].role_id";
-    public static String SQL_GET_ALL_USER1 = "SELECT [user_id], name, username, "
-            + "password, user_role, [role].role_name FROM [user] INNER JOIN role"
-            + " ON [user].user_role = [role].role_id WHERE user_id != ";
+            + " ON [user].user_role = [role].role_id WHERE [user].is_delete = 'false'";
+    public static String SQL_GET_ALL_USER1 = SQL_GET_ALL_USER + " AND user_id != ? ";
     public static String SQL_GET_USER_BY_NAME = "SELECT [user_id], name, username, "
             + "password, user_role, [role].role_name FROM [user] INNER JOIN role"
             + " ON [user].user_role = [role].role_id WHERE username LIKE ";
     public static String SQL_GET_ROLE_TO_SET = "SELECT * FROM [role]";
     public static String SQL_GET_USER_BY_ID = "SELECT * FROM [user] WHERE user_id = ?";
     public static String SQL_INSERT_USER = "INSERT INTO [user] ([name] ,[username] ,[password] ,[user_role]) VALUES (?, ?, ?, ?)";
-    public static String SQL_DELETE_USER_BY_ID = "DELETE FROM [user] WHERE user_id = ?";
-    public static String SQL_GET_SORTED_USER = "SELECT [user_id], name, username, "
-            + "password, user_role, [role].role_name FROM [user] INNER JOIN role ON [user].user_role = [role].role_id ORDER BY ";
+    public static String SQL_DELETE_USER_BY_ID = "UPDATE [user] SET is_delete = 'true' WHERE user_id = ?";
 
     // Nhóm quyền
     public static String SQL_SELECT_NHOM_QUYEN = "SELECT * FROM tbl_nhom_quyen";
@@ -105,21 +100,19 @@ public class Constant {
             + "ghi_chu=? WHERE id = ?";
     public static String SQL_DELETE_NHOM_TAI_SAN = "DELETE FROM tbl_loai_taisan WHERE id = ?";
     // san pham 
-     public  static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
-     
-     public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
-     public static String PROC_ADD_CAT = "{Call addCategory(?,?)}";
-     public static String PROC_UPDATE_CAT = "{Call updateCategory(?,?,?)}";
-     public static String PROC_DELETE_PRODUCT = "{Call deleteSanPham(?)}";
-     public static String PROC_NOT_IN_PRO = "{Call getAllProNotIn(?)}";
-     public static String PROC_CHECK_NAME_PRO = "{Call checkname}";
-     public static String PROC_ADD_PRO = "{Call addsanpham(?,?,?,?,?,?)}";
-     public static String PROC_CHECK_NAME_CAT_EDIT = "{Call checkNameEdit(?)}";
-     
-     
-     // category 
-     
-     public static String SQL_SELECT_ALL_CATEGORY = "SELECT * FROM category";
+    public static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
+
+    public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
+    public static String PROC_ADD_CAT = "{Call addCategory(?,?)}";
+    public static String PROC_UPDATE_CAT = "{Call updateCategory(?,?,?)}";
+    public static String PROC_DELETE_PRODUCT = "{Call deleteSanPham(?)}";
+    public static String PROC_NOT_IN_PRO = "{Call getAllProNotIn(?)}";
+    public static String PROC_CHECK_NAME_PRO = "{Call checkname}";
+    public static String PROC_ADD_PRO = "{Call addsanpham(?,?,?,?,?,?)}";
+    public static String PROC_CHECK_NAME_CAT_EDIT = "{Call checkNameEdit(?)}";
+
+    // category 
+    public static String SQL_SELECT_ALL_CATEGORY = "SELECT * FROM category";
     // Khu vuc
     public static String SQL_SELECT_PHONG_BAN = "SELECT * FROM tbl_phongban_khuvuc";
     public static String SQL_INSERT_PHONG_BAN = "INSERT INTO tbl_phongban_khuvuc ("

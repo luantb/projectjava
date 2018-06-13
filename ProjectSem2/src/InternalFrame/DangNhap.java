@@ -26,7 +26,6 @@ public class DangNhap extends javax.swing.JInternalFrame {
     public interface Callback {
 
         public void setRole(User u);
-        public void getID(User u);
     }
 
     Callback cb;
@@ -182,8 +181,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
             dispose();
             User user = ui.getUser(u);
             cb.setRole(user);
-            cb.getID(user);
-//            System.out.println(user.getUserId());
+            ui.getUserNoReturn(u);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
