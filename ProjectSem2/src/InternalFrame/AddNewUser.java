@@ -60,6 +60,13 @@ public class AddNewUser extends javax.swing.JInternalFrame {
         String username = jTextField2.getText();
         char[] pass1 = jPasswordField1.getPassword();
         char[] pass2 = jPasswordField2.getPassword();
+        jrMale.setActionCommand("1");
+        jrFemale.setActionCommand("2");
+        String address = jtfAddress.getText();
+        String phone = jtfPhone.getText();
+        String sex = buttonGroup1.getSelection().getActionCommand();
+        String birth = String.valueOf(jftBirthday.getValue());
+
         if (jTextField1.getText().length() <= 0 || jTextField2.getText().length() <= 0 || pass1.length <= 0 || pass2.length <= 0) {
             DialogThongBao.showSuccess(this, Constant.MSG_ADD, Constant.MSG_ADD_NULL);
         } else {
@@ -85,17 +92,14 @@ public class AddNewUser extends javax.swing.JInternalFrame {
                         String name = jTextField1.getText();
                         String password = Security.encryptMD5(new String(jPasswordField1.getPassword()));
                         int role = r.getRole_id();
-                        String param[] = new String[]{name, username, password, String.valueOf(role)};
+                        String param[] = new String[]{name, username, password,
+                            String.valueOf(role), phone, address, sex, birth};
                         try {
                             dtb.insertData(Constant.SQL_INSERT_USER, param);
                         } catch (SQLException ex) {
                             Logger.getLogger(AddNewUser.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         DialogThongBao.showSuccess(this, Constant.MSG_ADD, Constant.MSG_ADD_SUCCESS);
-//                        jTextField1.setText("");
-//                        jTextField2.setText("");
-//                        jPasswordField1.setText("");
-//                        jPasswordField2.setText("");
                         dispose();
                     }
                 }
@@ -108,6 +112,7 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     public AddNewUser() {
         initComponents();
         getRole();
+        jrMale.setSelected(true);
     }
 
     /**
@@ -119,6 +124,7 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -132,6 +138,15 @@ public class AddNewUser extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jftBirthday = new javax.swing.JFormattedTextField();
+        jrMale = new javax.swing.JRadioButton();
+        jrFemale = new javax.swing.JRadioButton();
+        jtfAddress = new javax.swing.JTextField();
+        jtfPhone = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -158,13 +173,13 @@ public class AddNewUser extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Họ và tên");
+        jLabel1.setText("Họ và tên*");
 
-        jLabel2.setText("Tên đăng nhập");
+        jLabel2.setText("Tên đăng nhập*");
 
-        jLabel3.setText("Mật khẩu");
+        jLabel3.setText("Mật khẩu*");
 
-        jLabel4.setText("Nhập lại mật khẩu");
+        jLabel4.setText("Nhập lại mật khẩu*");
 
         jLabel5.setText("Chức vụ");
 
@@ -184,35 +199,65 @@ public class AddNewUser extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setText("Ngày sinh");
+
+        jLabel7.setText("Giới tính");
+
+        jLabel8.setText("Địa chỉ");
+
+        jLabel9.setText("Số điện thoại");
+
+        try {
+            jftBirthday.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##-##-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        buttonGroup1.add(jrMale);
+        jrMale.setText("Nam");
+
+        buttonGroup1.add(jrFemale);
+        jrFemale.setText("Nữ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(119, 119, 119)
+                .addComponent(jrMale)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(jrFemale)
                 .addGap(10, 10, 10))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(222, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addGap(10, 10, 10))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jtfPhone)
+                    .addComponent(jtfAddress)
+                    .addComponent(jftBirthday)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPasswordField2)
+                    .addComponent(jPasswordField1)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField1))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,11 +282,28 @@ public class AddNewUser extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jftBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jrMale)
+                    .addComponent(jrFemale))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jtfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -280,6 +342,7 @@ public class AddNewUser extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
@@ -288,10 +351,19 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JFormattedTextField jftBirthday;
+    private javax.swing.JRadioButton jrFemale;
+    private javax.swing.JRadioButton jrMale;
+    private javax.swing.JTextField jtfAddress;
+    private javax.swing.JTextField jtfPhone;
     // End of variables declaration//GEN-END:variables
 }

@@ -32,6 +32,6 @@ public interface UserInterface {
     public void getUserNoReturn(User u);
 
     public ArrayList<User> getUserbyName(String username);
-    
-        public ArrayList<User> getAllUserExceptCurrent(int currentId);
+
+    public ArrayList<User> getAllUserExceptCurrent(int currentId);
 }

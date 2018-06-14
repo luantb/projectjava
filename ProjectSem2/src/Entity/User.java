@@ -13,9 +13,23 @@ public class User {
 
     private int userId;
     private String name, username, password;
-    private int userRole;
-    private String role;
+    private int userRole, sex;
+    private String role, address, phone, birthday ;
 
+    public User(int userId, String name, String username, String password, int userRole, int sex, String role, String address, String phone, String birthday) {
+        this.userId = userId;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.userRole = userRole;
+        this.sex = sex;
+        this.role = role;
+        this.address = address;
+        this.phone = phone;
+        this.birthday = birthday;
+    }
+
+    
     public User(int userId, String name, String username, String password, int userRole, String role) {
         this.userId = userId;
         this.name = name;
@@ -83,6 +97,39 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+    
 
     public String[] toArray() {
         return new String[]{

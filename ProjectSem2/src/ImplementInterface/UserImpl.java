@@ -57,7 +57,10 @@ public class UserImpl implements UserInterface {
 
             ResultSet rs = dtb.selectData(Constant.SQL_GET_ALL_USER);
             while (rs.next()) {
-                User u = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getInt("user_role"), rs.getString("role_name"));
+                User u = new User(rs.getInt("user_id"), rs.getString("name"),
+                        rs.getString("username"), rs.getString("password"),
+                        rs.getInt("user_role"), rs.getInt("sex"), rs.getString("role_name"),
+                         rs.getString("address"), rs.getString("phone"), rs.getString("birthday"));
                 lstUser.add(u);
             }
         } catch (SQLException ex) {
@@ -177,7 +180,10 @@ public class UserImpl implements UserInterface {
 
             ResultSet rs = dtb.selectData(Constant.SQL_GET_ALL_USER1, currentId);
             while (rs.next()) {
-                User u = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getInt("user_role"), rs.getString("role_name"));
+                User u = new User(rs.getInt("user_id"), rs.getString("name"),
+                        rs.getString("username"), rs.getString("password"),
+                        rs.getInt("user_role"), rs.getInt("sex"), rs.getString("role_name"),
+                         rs.getString("address"), rs.getString("phone"), rs.getString("birthday"));
                 lstUser.add(u);
             }
         } catch (SQLException ex) {
