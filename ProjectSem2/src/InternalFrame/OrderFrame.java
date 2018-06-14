@@ -39,9 +39,20 @@ public class OrderFrame extends javax.swing.JInternalFrame {
         initComponents();
         setModelDanhMuc();
         setModelProduct(0);
+        tbl_list_sp.setDefaultEditor(Object.class, null);
+//        tbl_list_order.setDefaultEditor(Object.class, null);
         tbl_list_order.setModel(dtmd_order);
 
     }
+
+    DefaultTableModel tableModel = new DefaultTableModel() {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            //Only the third column
+            return column == 3;
+        }
+    };
 
     public void setModelDanhMuc() throws SQLException {
         lstCategory = catImpl.getAllCat();
@@ -370,56 +381,32 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
             }
             tbl_list_order.setModel(dtmd_order);
-            
-            
 
             int rowCount = tbl_list_order.getRowCount();
-            for (int i = 0; i < rowCount; i++) {
-                String pro = tbl_list_order.getValueAt(i, 0).toString();
-                lstpro_order.add(Integer.valueOf(pro));
-            }
-            for (int i = 0; i < lstpro_order.size(); i++) {
-                Integer get = lstpro_order.get(i);
-                if (get == Integer.parseInt(pro_id)) {
-                    System.out.println("Trùng");
-                    if (rowCount >= i) {
-                        dtmd_order.removeRow(i);
-//                    continue;
-                    }
-                }else{
-                    System.out.println("Ok");
+            System.out.println("rowCount =" + rowCount);
+            if (rowCount > 1) {
+                for (int i = 0; i < rowCount - 1; i++) {
+                    String pro = tbl_list_order.getValueAt(i, 0).toString();
+                    lstpro_order.add(Integer.valueOf(pro));
                 }
+                for (int i = 0; i < lstpro_order.size(); i++) {
+                    Integer get = lstpro_order.get(i);
+                    if (get == Integer.valueOf(pro_id)) {
+                        System.out.println("removeRow at" + get);
+                        dtmd_order.removeRow(i);
+                    }
+                }
+                tbl_list_order.setModel(dtmd_order);
+                int rowCount2 = tbl_list_order.getRowCount();
+
+                tbl_list_order.setEnabled(true);
+
             }
-            
-//            System.out.println("rowCount =" + rowCount);
-//            if (rowCount > 1) {
-//                for (int i = 0; i < rowCount; i++) {
-//                    String pro = tbl_list_order.getValueAt(i, 0).toString();
-//                    lstpro_order.add(Integer.valueOf(pro));
-//                }
-//                for (int i = 0; i < lstpro_order.size(); i++) {
-//                    Integer get = lstpro_order.get(i);
-//                    if (get == Integer.valueOf(pro_id)) {
-//                        System.out.println("removeRow at" +get);
-//                        dtmd_order.removeRow(i);
-//                        
-//                    }else{
-//                        for (int j = 0; j < lstProducts.size(); j++) {
-//                            Product get_sp = lstProducts.get(j);
-//                            if (pro_id.equals(String.valueOf(get_sp.getPro_id())) && !Objects.equals(get, pro_id)) {
-//                                Object data[] = {get_sp.getPro_id(), get_sp.getPro_name(), get_sp.getPro_price(), quantity};
-//                                dtmd_order.addRow(data);
-//                            }
-//                        }
-//                    }
-//                }
-//                tbl_list_order.setModel(dtmd_order);
-//
-//            }
 
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_btn_submit_spActionPerformed
 
     private void tbl_list_spMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_list_spMouseClicked
@@ -432,7 +419,7 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                     lb_ten.setText(pro.getPro_name());
                     lb_gia.setText(String.valueOf(pro.getPro_price()));
                     lb_desc.setText(pro.getPro_desc());
-                    lb_desc.setEditable(false);
+                    lb_desc.setEditable(true);
 
                 }
 
