@@ -42,6 +42,7 @@ public class ChangePass extends javax.swing.JInternalFrame {
                 if (newpass1.compareTo(newpass2) == 0) {
                     try {
                         dtb.updateData(slq, param);
+                        user.setPassword(newpass1);
                     } catch (SQLException ex) {
                         Logger.getLogger(ChangePass.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -58,7 +59,6 @@ public class ChangePass extends javax.swing.JInternalFrame {
     public ChangePass() {
         initComponents();
         this.getRootPane().setDefaultButton(jButton2);
-        System.out.println(Security.encryptMD5("admin"));
     }
 
     /**

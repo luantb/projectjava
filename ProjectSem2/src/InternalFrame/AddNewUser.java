@@ -63,7 +63,7 @@ public class AddNewUser extends javax.swing.JInternalFrame {
         jrMale.setActionCommand("1");
         jrFemale.setActionCommand("2");
         String address = jtfAddress.getText();
-        String phone = jtfPhone.getText();
+        String phone = "0" + jtfPhone.getText();
         String sex = buttonGroup1.getSelection().getActionCommand();
         String birth = String.valueOf(jftBirthday.getValue());
 
@@ -146,11 +146,11 @@ public class AddNewUser extends javax.swing.JInternalFrame {
         jrMale = new javax.swing.JRadioButton();
         jrFemale = new javax.swing.JRadioButton();
         jtfAddress = new javax.swing.JTextField();
-        jtfPhone = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jtfPhone = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("Thêm nhân viên mới");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -219,22 +219,14 @@ public class AddNewUser extends javax.swing.JInternalFrame {
         buttonGroup1.add(jrFemale);
         jrFemale.setText("Nữ");
 
+        jLabel10.setText("* Lưu ý: Các trường bắt buộc phải nhập!");
+
+        jtfPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(jrMale)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
-                .addComponent(jrFemale)
-                .addGap(10, 10, 10))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(222, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,12 +243,23 @@ public class AddNewUser extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jtfPhone)
                     .addComponent(jtfAddress)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jrMale)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                        .addComponent(jrFemale))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jftBirthday)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPasswordField2)
                     .addComponent(jPasswordField1)
                     .addComponent(jTextField2)
                     .addComponent(jTextField1))
+                .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(222, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -299,7 +302,9 @@ public class AddNewUser extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel10)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -347,6 +352,7 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -364,6 +370,6 @@ public class AddNewUser extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jrFemale;
     private javax.swing.JRadioButton jrMale;
     private javax.swing.JTextField jtfAddress;
-    private javax.swing.JTextField jtfPhone;
+    private javax.swing.JFormattedTextField jtfPhone;
     // End of variables declaration//GEN-END:variables
 }

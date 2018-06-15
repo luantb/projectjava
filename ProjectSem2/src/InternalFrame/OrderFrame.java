@@ -7,14 +7,20 @@ package InternalFrame;
 
 import Entity.Category;
 import Entity.Product;
+import ImplementInterface.OrderImpl;
 import ImplementInterface.ProductImpl;
 import ImplementInterface.categoryImpl;
+import Utils.DialogThongBao;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,12 +31,13 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
     ProductImpl Proimpl = new ProductImpl();
     categoryImpl catImpl = new categoryImpl();
+    OrderImpl oi = new OrderImpl();
     public ArrayList<Product> lstProducts;
-
     public ArrayList<Product> lstpro;
     public ArrayList<Category> lstCategory;
-    String strSetModel[] = new String[]{"Mã Sp", "Danh mục", "Tên Sp", "Giá Sp", "Trạng thái"};
-    String strSetModel_order[] = new String[]{"Mã Sp", "Tên Sp", "Giá Sp", "Số Lượng"};
+    ArrayList<Integer> lstpro_order = new ArrayList<>();
+    String strSetModel[] = new String[]{"Mã sản phẩm", "Danh mục", "Tên sản phẩm", "Đơn giá", "Trạng thái"};
+    String strSetModel_order[] = new String[]{"Mã sản phẩm", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"};
     DefaultTableModel dtmd = new DefaultTableModel(strSetModel, 0);
     DefaultTableModel dtmd_order = new DefaultTableModel(strSetModel_order, 0);
     DefaultComboBoxModel dcbm1;
@@ -42,7 +49,6 @@ public class OrderFrame extends javax.swing.JInternalFrame {
         tbl_list_sp.setDefaultEditor(Object.class, null);
 //        tbl_list_order.setDefaultEditor(Object.class, null);
         tbl_list_order.setModel(dtmd_order);
-
     }
 
     DefaultTableModel tableModel = new DefaultTableModel() {
@@ -68,7 +74,7 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
     public void setModelProduct(int cat_id) throws SQLException {
         lstCategory = catImpl.getAllCat();
-        lstProducts = Proimpl.getAllpro();
+        lstProducts = Proimpl.getAllProToOrder();
         dtmd.setRowCount(0);
         for (int i = 0; i < lstProducts.size(); i++) {
             Product get = lstProducts.get(i);
@@ -109,6 +115,8 @@ public class OrderFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_list_sp = new javax.swing.JTable();
@@ -117,8 +125,6 @@ public class OrderFrame extends javax.swing.JInternalFrame {
         btn_submit_sp = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lb_gia = new javax.swing.JLabel();
@@ -130,8 +136,29 @@ public class OrderFrame extends javax.swing.JInternalFrame {
         jcb_danh_muc = new javax.swing.JComboBox<>();
         btn_chon_danh_muc = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jtfCus_Name = new javax.swing.JTextField();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+
+        jMenuItem1.setText("Xóa");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
         setTitle("Order");
 
         tbl_list_sp.setModel(new javax.swing.table.DefaultTableModel(
@@ -145,6 +172,7 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_list_sp.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_list_sp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_list_spMouseClicked(evt);
@@ -163,16 +191,18 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_list_order.setComponentPopupMenu(jPopupMenu1);
+        tbl_list_order.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(tbl_list_order);
 
-        btn_submit_sp.setText("chọn");
+        btn_submit_sp.setText("Chọn");
         btn_submit_sp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_submit_spActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Đặt hàng");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -181,17 +211,13 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setText("Tổng tiền hóa đơn");
-
-        jLabel3.setText("jLabel3");
-
         jLabel4.setText("Tên");
 
         jLabel5.setText("Giá");
 
-        lb_gia.setText("jLabel8");
+        lb_gia.setText("...");
 
-        lb_ten.setText("jLabel9");
+        lb_ten.setText("...");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mô tả", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 3, 11))); // NOI18N
 
@@ -205,11 +231,11 @@ public class OrderFrame extends javax.swing.JInternalFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+            .addComponent(jScrollPane3)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -222,19 +248,12 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4))
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lb_ten)
-                                    .addComponent(lb_gia))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_gia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lb_ten, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -250,10 +269,6 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                     .addComponent(lb_gia))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
                 .addContainerGap())
         );
 
@@ -275,6 +290,60 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Danh sách đã chọn");
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Sử dụng khi đặt hàng online *"));
+
+        jLabel3.setText("Tên khách hàng: ");
+
+        jLabel7.setText("Số điện thoại:");
+
+        jLabel8.setText("Địa chỉ:");
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtfCus_Name, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jtfCus_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel9.setText("Danh sách sản phẩm hiện có");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Tổng tiền hóa đơn");
+
+        lblTotal.setText("...");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -285,22 +354,32 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcb_danh_muc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(btn_chon_danh_muc)
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2)
-                            .addComponent(btn_submit_sp))
-                        .addGap(22, 22, 22))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcb_danh_muc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_chon_danh_muc))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_submit_sp))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,23 +387,37 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(jcb_danh_muc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btn_chon_danh_muc, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_submit_sp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButton2))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_submit_sp)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton2)
+                                    .addComponent(lblTotal)
+                                    .addComponent(jLabel2)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jcb_danh_muc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_chon_danh_muc, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -364,17 +457,17 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
     private void btn_submit_spActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submit_spActionPerformed
         try {
-            ArrayList<Integer> lstpro_order = new ArrayList<>();
 
-            int quantity = 1;
+            int quantity = Integer.parseInt(String.valueOf(jSpinner1.getValue()));
+            float total_price;
             lstCategory = catImpl.getAllCat();
             String pro_id = tbl_list_sp.getValueAt(tbl_list_sp.getSelectedRow(), 0).toString();
+
             for (int i = 0; i < lstProducts.size(); i++) {
                 Product get = lstProducts.get(i);
                 if (pro_id.equals(String.valueOf(get.getPro_id()))) {
-
-                    Object data[] = {get.getPro_id(), get.getPro_name(), get.getPro_price(), quantity};
-
+                    total_price = get.getPro_price() * quantity;
+                    Object data[] = {get.getPro_id(), get.getPro_name(), get.getPro_price(), quantity, total_price};
                     dtmd_order.addRow(data);
 
                 }
@@ -383,16 +476,17 @@ public class OrderFrame extends javax.swing.JInternalFrame {
             tbl_list_order.setModel(dtmd_order);
 
             int rowCount = tbl_list_order.getRowCount();
-            System.out.println("rowCount =" + rowCount);
+            Integer lstO[] = new Integer[rowCount];
             if (rowCount > 1) {
                 for (int i = 0; i < rowCount - 1; i++) {
                     String pro = tbl_list_order.getValueAt(i, 0).toString();
-                    lstpro_order.add(Integer.valueOf(pro));
+//                    lstpro_order.add(Integer.valueOf(pro));
+                    lstO[i] = Integer.valueOf(pro);
                 }
-                for (int i = 0; i < lstpro_order.size(); i++) {
-                    Integer get = lstpro_order.get(i);
+                for (int i = 0; i < lstO.length; i++) {
+                    Integer get = lstO[i];
                     if (get == Integer.valueOf(pro_id)) {
-                        System.out.println("removeRow at" + get);
+                        System.out.println("removeRow at " + get);
                         dtmd_order.removeRow(i);
                     }
                 }
@@ -407,12 +501,25 @@ public class OrderFrame extends javax.swing.JInternalFrame {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        int RowCounts = tbl_list_order.getRowCount();
+        Float price[] = new Float[RowCounts];
+        for (int i = 0; i < RowCounts; i++) {
+            price[i] = Float.parseFloat(tbl_list_order.getValueAt(i, 4).toString());
+        }
+        float total = 0;
+        for (int i = 0; i < price.length; i++) {
+            Float float1 = price[i];
+            total += float1;
+        }
+        lblTotal.setText(String.valueOf(total));
     }//GEN-LAST:event_btn_submit_spActionPerformed
 
     private void tbl_list_spMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_list_spMouseClicked
         try {
-            lstCategory = catImpl.getAllCat();
             String pro_id = tbl_list_sp.getValueAt(tbl_list_sp.getSelectedRow(), 0).toString();
+
+            jSpinner1.setValue(1);
+            lstCategory = catImpl.getAllCat();
             for (int i = 0; i < lstProducts.size(); i++) {
                 Product pro = lstProducts.get(i);
                 if (pro_id.equals(String.valueOf(pro.getPro_id()))) {
@@ -422,9 +529,7 @@ public class OrderFrame extends javax.swing.JInternalFrame {
                     lb_desc.setEditable(true);
 
                 }
-
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -432,40 +537,107 @@ public class OrderFrame extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        ArrayList<Integer> lstpro_order = new ArrayList<>();
-        int rowCount = tbl_list_order.getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            String pro_id = tbl_list_order.getValueAt(i, 0).toString();
-            lstpro_order.add(Integer.valueOf(pro_id));
-        }
-        for (int i = 0; i < lstpro_order.size(); i++) {
-            Integer get = lstpro_order.get(i);
-            System.out.println(get);
+//        ArrayList<Integer> lstpro_order = new ArrayList<>();
+//        int rowCount = tbl_list_order.getRowCount();
+//        for (int i = 0; i < rowCount; i++) {
+//            String pro_id = tbl_list_order.getValueAt(i, 0).toString();
+//            lstpro_order.add(Integer.valueOf(pro_id));
+//        }
+//        for (int i = 0; i < lstpro_order.size(); i++) {
+//            Integer get = lstpro_order.get(i);
+//            System.out.println(get);
+//
+//        }
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        Calendar cal = Calendar.getInstance();
+        int RowCounts = tbl_list_order.getRowCount();
 
+        String cus_name = (jtfCus_Name.getText().length() > 0) ? jtfCus_Name.getText() : "Không có thông tin";
+        String cus_phone = (jFormattedTextField1.getText().length() > 0) ? jFormattedTextField1.getText() : "Không có thông tin";
+        String cus_address = (jTextField2.getText().length() > 0) ? jTextField2.getText() : "Không có thông tin";
+        String total = lblTotal.getText();
+        String date = dateFormat.format(cal.getTime());
+        String param[] = new String[]{cus_name, cus_phone, cus_address, total, date};
+        if (RowCounts > 0) {
+            if (cus_name == "Không có thông tin" && cus_phone == "Không có thông tin" && cus_address == "Không có thông tin") {
+                if (DialogThongBao.showAlert(this, "Cảnh báo", "Thông tin khách hàng đang trống\n"
+                        + "Tiếp tục?") == JOptionPane.YES_OPTION) {
+                    oi.InsertOrder(param);
+                    DialogThongBao.showSuccess(this, "Thông báo", "Đặt hàng thành công!");
+                }
+            } else {
+                oi.InsertOrder(param);
+                DialogThongBao.showSuccess(this, "Thông báo", "Đặt hàng thành công!");
+            }
+
+        } else {
+            DialogThongBao.showError(this, "Lỗi đặt hàng", "Chưa có sản phẩm nào\nVui lòng chọn ít nhất một sản phẩm");
         }
+
+        //        Lấy danh sách pro_id đặt hàng
+        String id[] = new String[RowCounts];
+        for (int i = 0; i < RowCounts; i++) {
+            id[i] = tbl_list_order.getValueAt(i, 0).toString();
+        }
+
+//        for (int i = 0; i < id.length; i++) {
+//            String string = id[i];
+//            System.out.println(string);
+//        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        int i = tbl_list_order.getSelectedRow();
+        System.out.println(i);
+        DefaultTableModel dtm = (DefaultTableModel) tbl_list_order.getModel();
+        dtm.removeRow(i);
+        tbl_list_order.setModel(dtm);
+        int RowCounts = tbl_list_order.getRowCount();
+        Float price[] = new Float[RowCounts];
+        for (int j = 0; j < RowCounts; j++) {
+            price[j] = Float.parseFloat(tbl_list_order.getValueAt(j, 4).toString());
+        }
+        float total = 0;
+        for (int k = 0; k < price.length; k++) {
+            Float total_price = price[k];
+            total += total_price;
+        }
+        lblTotal.setText(String.valueOf(total));
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_chon_danh_muc;
     private javax.swing.JButton btn_submit_sp;
     private javax.swing.JButton jButton2;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JComboBox<String> jcb_danh_muc;
+    private javax.swing.JTextField jtfCus_Name;
     private javax.swing.JTextArea lb_desc;
     private javax.swing.JLabel lb_gia;
     private javax.swing.JLabel lb_ten;
+    private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tbl_list_order;
     private javax.swing.JTable tbl_list_sp;
     // End of variables declaration//GEN-END:variables

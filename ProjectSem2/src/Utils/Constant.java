@@ -15,7 +15,7 @@ public class Constant {
 
     public static Locale locale = new Locale("vi", "VN");
 
-    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS"; 
+    public static String host = "localhost\\DESKTOP-65396KU\\SQLEXPRESS";
 //    public static String host = "localhost\\DESKTOP-755C9DH\\SQLEXPRESS"; 
     public static String port = "1433"; // 3306
     public static String schema = "QuanLyCuaHang";
@@ -60,6 +60,8 @@ public class Constant {
 
     // Cú pháp SQL
     public static String SQL_LOGIN = "SELECT * FROM [user] WHERE username = ? AND password = ? AND is_delete = 'false'";
+    
+//    User
     public static String SQL_GET_ALL_USER = "SELECT [user_id], name, username, "
             + "password, user_role, [role].role_name, birthday, phone, sex, address FROM [user] INNER JOIN role"
             + " ON [user].user_role = [role].role_id WHERE [user].is_delete = 'false'";
@@ -73,37 +75,9 @@ public class Constant {
             + " ,[password] ,[user_role], phone, address, sex, birthday) VALUES (?, ?, ?, ?, ?, ? , ?, ?)";
     public static String SQL_DELETE_USER_BY_ID = "UPDATE [user] SET is_delete = 'true' WHERE user_id = ?";
 
-    // Nhóm quyền
-    public static String SQL_SELECT_NHOM_QUYEN = "SELECT * FROM tbl_nhom_quyen";
-    public static String SQL_INSERT_NHOM_QUYEN = "INSERT INTO tbl_nhom_quyen ("
-            + "ma_nhom_quyen, ten_nhom_quyen, ghi_chu) VALUES ("
-            + "?, ?, ?);";
-    public static String SQL_UPDATE_NHOM_QUYEN = "UPDATE tbl_nhom_quyen SET "
-            + "ma_nhom_quyen=?,"
-            + "ten_nhom_quyen=?,"
-            + "ghi_chu=? WHERE id = ?";
-    public static String SQL_DELETE_NHOM_QUYEN = "DELETE FROM tbl_nhom_quyen WHERE id = ?";
-
-    // Hiện trạng
-    public static String SQL_SELECT_HIEN_TRANG = "SELECT * FROM tbl_hientrang";
-    public static String SQL_INSERT_HIEN_TRANG = "INSERT INTO tbl_hientrang ("
-            + "ten_hientrang, ghi_chu) VALUES ("
-            + "?, ?);";
-    public static String SQL_UPDATE_HIEN_TRANG = "UPDATE tbl_hientrang SET "
-            + "ten_hientrang=?,"
-            + "ghi_chu=? WHERE id = ?";
-    public static String SQL_DELETE_HIEN_TRANG = "DELETE FROM tbl_hientrang WHERE id = ?";
-
-    // Nhóm tài sản
-    public static String SQL_SELECT_NHOM_TAI_SAN = "SELECT * FROM tbl_loai_taisan";
-    public static String SQL_INSERT_NHOM_TAI_SAN = "INSERT INTO tbl_loai_taisan(ten_loai_taisan, ghi_chu) "
-            + "VALUES (?,?)";
-    public static String SQL_UPDATE_NHOM_TAI_SAN = "UPDATE tbl_loai_taisan "
-            + "SET ten_loai_taisan=?,"
-            + "ghi_chu=? WHERE id = ?";
-    public static String SQL_DELETE_NHOM_TAI_SAN = "DELETE FROM tbl_loai_taisan WHERE id = ?";
     // san pham 
     public static String SQL_SELECT_ALL_SAN_PHAM = " SELECT * from product";
+    public static String SQL_SELECT_ALL_SAN_PHAM_EXCEPT_OUT_OF_PRO = " SELECT * from product WHERE pro_status != 0";
 
     public static String PROC_UPDATE_PRO = "{Call updatesanpham(?,?,?,?,?,?,?)}";
     public static String PROC_ADD_CAT = "{Call addCategory(?,?)}";
@@ -116,29 +90,9 @@ public class Constant {
 
     // category 
     public static String SQL_SELECT_ALL_CATEGORY = "SELECT * FROM category";
-    // Khu vuc
-    public static String SQL_SELECT_PHONG_BAN = "SELECT * FROM tbl_phongban_khuvuc";
-    public static String SQL_INSERT_PHONG_BAN = "INSERT INTO tbl_phongban_khuvuc ("
-            + "ma_pb_kv, ten_pb_kv, mo_ta) VALUES ("
-            + "?, ?, ?);";
-    public static String SQL_UPDATE_PHONG_BAN = "UPDATE tbl_phongban_khuvuc SET "
-            + "ma_pb_kv=?,"
-            + "ten_pb_kv=?,"
-            + "mo_ta=? WHERE id = ?";
-    public static String SQL_DELETE_PHONG_BAN = "DELETE FROM tbl_phongban_khuvuc WHERE id = ?";
+    
+//    Order
+    public static String SQL_ORDER_INSERT = "INSERT INTO [dbo].[order] (cus_name, cus_phone, cus_address, total, order_date)"
+            + " VALUES (?,?,?,?,?)";
 
-    // Nhà Cung Cấp
-    public static String SQL_SELECT_NHA_CUNGCAP = "SELECT * FROM tbl_nha_cungcap";
-    public static String SQL_INSERT_NHA_CUNGCAP = "INSERT INTO tbl_nha_cungcap"
-            + "(ten_nha_cungcap, dia_chi, so_dienthoai, fax, email, ghi_chu)"
-            + " VALUES (?,?,?,?,?,?)";
-    public static String SQL_UPDATE_NHA_CUNGCAP = "UPDATE tbl_nha_cungcap SET "
-            + "id=?,"
-            + "ten_nha_cungcap=?,"
-            + "dia_chi=?,"
-            + "so_dienthoai=?,"
-            + "fax=?,"
-            + "email=?,"
-            + "ghi_chu=? WHERE id = ?";
-    public static String SQL_DELETE_NHA_CUNGCAP = "DELETE FROM tbl_nha_cungcap WHERE id = ?";
 }

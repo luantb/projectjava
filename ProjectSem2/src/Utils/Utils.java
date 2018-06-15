@@ -8,12 +8,16 @@ package Utils;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  *
  * @author minhvufc
  */
 public class Utils {
+
+    public static String Language = "vi";
+    public static String Country = "VN";
 
     /**
      * Hàm lấy về thời gian hiện tại
@@ -26,5 +30,11 @@ public class Utils {
         Calendar calendar = Calendar.getInstance(Constant.locale);
         DateFormat format = DateFormat.getDateTimeInstance(type, type, Constant.locale);
         return "[" + format.format(calendar.getTime()) + "] ";
+    }
+
+    public static ResourceBundle getLocale() {
+        Locale loc = new Locale(Utils.Language, Utils.Country);
+        ResourceBundle rb = ResourceBundle.getBundle("resource.i18n", loc);
+        return rb;
     }
 }

@@ -7,15 +7,26 @@ package InternalFrame;
 
 import Entity.Category;
 import Entity.Product;
+import Entity.User;
 import ImplementInterface.*;
 import Utils.Constant;
 import Utils.DialogThongBao;
+import Utils.Security;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -32,7 +43,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
 
     public ArrayList<Product> lstpro;
     public ArrayList<Category> lstCategory;
-    String strSetModel[] = new String[]{"Mã Sp", "Danh mục", "Tên Sp", "Giá Sp", "Trạng thái", "Mô tả", "Số TT"};
+    String strSetModel[] = new String[]{"Mã sản phẩm", "Danh mục", "Tên sản phẩm", "Giá sản phẩm"};
     DefaultTableModel dtmd = new DefaultTableModel(strSetModel, 0);
 
     String setmodelSort[] = new String[]{"Mã Sp ", "Tên Sp", "Giá", "Còn hàng", "Hết Hàng"};
@@ -64,10 +75,100 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
             } else {
                 status = "Hết Hàng";
             }
-            Object data[] = {get.getPro_id(), cat_name, get.getPro_name(), get.getPro_price(), status, get.getPro_desc(), get.getSort()};
+            Object data[] = {get.getPro_id(), cat_name, get.getPro_name(), get.getPro_price()};
             dtmd.addRow(data);
         }
         tlbproducts.setModel(dtmd);
+    }
+
+    public String chooseFilepath() {
+// Dùng dialog chọn file lấy về đường dẫn để ghi file
+        File file = null;
+        jFileChooser1.setCurrentDirectory(new File("C:\\Users\\ThinkPad\\Desktop"));
+        int chooser = jFileChooser1.showSaveDialog(this);
+        if (chooser == JFileChooser.APPROVE_OPTION) {
+            file = jFileChooser1.getSelectedFile();
+        }
+        return file.toString();
+    }
+
+    public void writeExcel() {
+        HSSFWorkbook hw = new HSSFWorkbook();
+        HSSFSheet hs = hw.createSheet(Security.curentLogin.getName()); // Tạo sheet
+        Cell cell;
+        int rownum = 0;
+        Row row = hs.createRow(rownum);
+        String cat_name, status = null;
+        try {
+            lstProducts = Proimpl.getAllpro();
+            lstCategory = catImpl.getAllCat();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cell = row.createCell(0);
+        cell.setCellValue("Mã sản phẩm");
+
+        cell = row.createCell(1);
+        cell.setCellValue("Tên sản phẩm");
+
+        cell = row.createCell(2);
+        cell.setCellValue("Danh mục");
+
+        cell = row.createCell(3);
+        cell.setCellValue("Giá");
+
+        cell = row.createCell(4);
+        cell.setCellValue("Trạng thái");
+
+        cell = row.createCell(5);
+        cell.setCellValue("Mô tả");
+
+        for (int i = 0; i < lstProducts.size(); i++) {
+            Product get = lstProducts.get(i);
+            rownum++;
+            row = hs.createRow(rownum);
+            cell = row.createCell(0);
+            cell.setCellValue(get.getPro_id());
+
+            cell = row.createCell(1);
+            cell.setCellValue(get.getPro_name());
+            for (int j = 0; j < lstCategory.size(); j++) {
+                Category get_cat = lstCategory.get(j);
+
+                if (get_cat.getCat_id() == get.getCat_id()) {
+                    cat_name = get_cat.getCat_name();
+                    cell = row.createCell(2);
+                    cell.setCellValue(cat_name);
+                }
+            }
+
+            cell = row.createCell(3);
+            cell.setCellValue(get.getPro_price());
+
+            if (get.getPro_status() == 1) {
+                status = "Còn Hàng";
+            } else {
+                status = "Hết Hàng";
+            }
+            cell = row.createCell(4);
+            cell.setCellValue(status);
+
+            cell = row.createCell(5);
+            cell.setCellValue(get.getPro_desc());
+        }
+
+        File file = new File(chooseFilepath() + ".xls");
+        file.getParentFile().mkdirs();
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            hw.write(fos);
+            DialogThongBao.showSuccess(this, "Thông báo", "Ghi file thành công\n"
+                    + "Đường dẫn: " + file.getAbsolutePath());
+        } catch (FileNotFoundException ex) {
+            DialogThongBao.showError(this, "Lỗi", "File đang được sử dụng bởi một ứng dụng khác!");
+        } catch (IOException ex) {
+            Logger.getLogger(QuanLyNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public QuanLySanPham() throws SQLException {
@@ -90,6 +191,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         buttonGroup_pro_status = new javax.swing.ButtonGroup();
+        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tlbproducts = new javax.swing.JTable();
@@ -110,7 +212,6 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         tf_pro_desc = new javax.swing.JTextArea();
         lblpro_sort = new javax.swing.JLabel();
         tf_pro_sort = new javax.swing.JTextField();
-        jButton316 = new javax.swing.JButton();
         bt_pro_add = new javax.swing.JButton();
         bt_pro_update = new javax.swing.JButton();
         bt_pro_delete = new javax.swing.JButton();
@@ -118,6 +219,8 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jcb_cat_name = new javax.swing.JComboBox<>();
         tf_pro_price = new javax.swing.JFormattedTextField();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton3 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -213,13 +316,6 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
 
         lblpro_sort.setText("Thứ Tự HT:");
 
-        jButton316.setText("Xuất Dữ Liệu");
-        jButton316.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton316ActionPerformed(evt);
-            }
-        });
-
         bt_pro_add.setText("Thêm");
         bt_pro_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +323,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
             }
         });
 
-        bt_pro_update.setText("sửa");
+        bt_pro_update.setText("Sửa");
         bt_pro_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_pro_updateActionPerformed(evt);
@@ -254,21 +350,15 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblpro_sort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblpro_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblpro_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblproname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblpro_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton316)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblpro_sort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblpro_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblpro_price, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblproname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblpro_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(tf_pro_sort)
@@ -324,12 +414,11 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jcb_cat_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_pro_add)
                     .addComponent(bt_pro_update)
-                    .addComponent(bt_pro_delete)
-                    .addComponent(jButton316)))
+                    .addComponent(bt_pro_delete)))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -338,20 +427,19 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jTextField1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxSort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                .addGap(16, 16, 16)
-                .addComponent(jComboBoxSort, 0, 92, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(389, 389, 389))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,15 +457,36 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        jToolBar1.setRollover(true);
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/document-excel-icon.png"))); // NOI18N
+        jButton3.setText("Xuất file excel");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -512,7 +621,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_bt_pro_addActionPerformed
 
     private void bt_pro_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_pro_deleteActionPerformed
-           try {
+        try {
             int pro_id = Integer.valueOf(tf_pro_id.getText());
             if (DialogThongBao.showAlert(this, "Xác Nhận", "Bạn có chắc muốn xóa") == 0) {
                 if (Proimpl.DeletePro(pro_id)) {
@@ -528,9 +637,10 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_bt_pro_deleteActionPerformed
 
-    private void jButton316ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton316ActionPerformed
-        
-    }//GEN-LAST:event_jButton316ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        writeExcel();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -540,8 +650,9 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup_pro_status;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton316;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBoxSort;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -553,6 +664,7 @@ public class QuanLySanPham extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JComboBox<String> jcb_cat_name;
     private javax.swing.JLabel lblpro_id;
     private javax.swing.JLabel lblpro_price;
