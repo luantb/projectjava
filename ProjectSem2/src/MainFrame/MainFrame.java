@@ -54,6 +54,8 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 //            loginFrame.show();
 //        }
 //    }
+    public static String welcome, notlogin;
+
     private void loginTrue(String name) {
         tongquan.setEnabled(true);
         quanly.setEnabled(true);
@@ -63,7 +65,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         nhanvien.setEnabled(false);
         dangxuat.setEnabled(true);
         doimatkhau.setEnabled(true);
-        jLabel1.setText("Xin chào: " + name);
+        xinchao.setText(welcome + " " + name + "!");
     }
 
     public void loginFalse() {
@@ -75,7 +77,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         game.setEnabled(false);
         dangxuat.setEnabled(false);
         doimatkhau.setEnabled(false);
-        jLabel1.setText("Bạn chưa đăng nhập!");
+        xinchao.setText(notlogin);
     }
 
     public boolean checkOnly(JInternalFrame innerFrame) {
@@ -112,6 +114,9 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
     public void changeLanguage() {
         ResourceBundle rb = Utils.getLocale();
+        welcome = rb.getString("welcome");
+        notlogin = rb.getString("notlogin");
+        xinchao.setText(notlogin);
         tongquan.setText(rb.getString("overview"));
         quanly.setText(rb.getString("manage"));
         dathang.setText(rb.getString("order"));
@@ -137,7 +142,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         loginFalse();
-//        setMaxSize();
+        setMaxSize();
         showFrame(dn);
         changeLanguage();
 //        showLogin();
@@ -154,7 +159,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         MainDesktopPain = new javax.swing.JDesktopPane();
-        jLabel1 = new javax.swing.JLabel();
+        xinchao = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         tongquan = new javax.swing.JMenu();
         quanly = new javax.swing.JMenu();
@@ -183,10 +188,10 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
 
         MainDesktopPain.setToolTipText("");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
+        xinchao.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        xinchao.setForeground(new java.awt.Color(255, 255, 0));
 
-        MainDesktopPain.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        MainDesktopPain.setLayer(xinchao, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout MainDesktopPainLayout = new javax.swing.GroupLayout(MainDesktopPain);
         MainDesktopPain.setLayout(MainDesktopPainLayout);
@@ -194,15 +199,15 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
             MainDesktopPainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainDesktopPainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(555, Short.MAX_VALUE))
+                .addComponent(xinchao, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(535, Short.MAX_VALUE))
         );
         MainDesktopPainLayout.setVerticalGroup(
             MainDesktopPainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainDesktopPainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(600, Short.MAX_VALUE))
+                .addComponent(xinchao, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(578, Short.MAX_VALUE))
         );
 
         tongquan.setText("Tổng quan");
@@ -352,12 +357,16 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(MainDesktopPain)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainDesktopPain)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MainDesktopPain)
+                .addContainerGap())
         );
 
         pack();
@@ -386,8 +395,8 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         // TODO add your handling code here:
         MainDesktopPain.removeAll();
         MainDesktopPain.repaint();
-        MainDesktopPain.add(jLabel1);
-        jLabel1.setVisible(true);
+        MainDesktopPain.add(xinchao);
+        xinchao.setVisible(true);
         DangNhap dn = new DangNhap(this, true);
         dn.setupCallbackObject(this);
         showFrame(dn);
@@ -397,8 +406,8 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
         // TODO add your handling code here:
         MainDesktopPain.removeAll();
         MainDesktopPain.repaint();
-        MainDesktopPain.add(jLabel1);
-        jLabel1.setVisible(true);
+        MainDesktopPain.add(xinchao);
+        xinchao.setVisible(true);
         loginFalse();
     }//GEN-LAST:event_dangxuatActionPerformed
 
@@ -512,7 +521,6 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     private javax.swing.JMenuItem doimatkhau;
     private javax.swing.JMenu game;
     private javax.swing.JMenu hethong;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem listregister;
@@ -525,6 +533,7 @@ public class MainFrame extends javax.swing.JFrame implements DangNhap.Callback {
     private javax.swing.JRadioButtonMenuItem tienganh;
     private javax.swing.JRadioButtonMenuItem tiengviet;
     private javax.swing.JMenu tongquan;
+    private javax.swing.JLabel xinchao;
     // End of variables declaration//GEN-END:variables
 
     @Override
